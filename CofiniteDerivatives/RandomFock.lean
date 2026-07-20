@@ -281,3 +281,5 @@ theorem P_pointwise_log_lowerTail
     _ ≤ ENNReal.ofReal (Real.exp (-2 * s)) := hraw
 
 end
+
+end CofiniteDerivatives
