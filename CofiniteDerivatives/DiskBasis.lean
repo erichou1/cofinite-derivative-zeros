@@ -212,3 +212,5 @@ theorem norm_mem_frontier_ball_half_bounds (j : ℕ) {z : ℂ}
   norm_mem_sphere_half_bounds j (frontier_ball_subset_sphere hz)
 
 end
+
+end CofiniteDerivatives

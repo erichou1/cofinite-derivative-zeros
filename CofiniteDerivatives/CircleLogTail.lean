@@ -147,3 +147,5 @@ theorem measure_event_le_two_mul_exp_neg_eighth_of_circleLogAverage
     _ ≤ ENNReal.ofReal (2 * Real.exp (-t / 8)) := by
       apply ENNReal.ofReal_le_ofReal
       exact mul_le_mul_of_nonneg_left (Real.exp_monotone (by linarith)) (by norm_num)
+
+end CofiniteDerivatives

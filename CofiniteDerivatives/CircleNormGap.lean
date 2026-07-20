@@ -175,3 +175,5 @@ theorem circleAverage_sqrt_nat_mul_norm_sub (n : ℕ) (c : ℂ) (r : ℝ) :
 theorem sqrt_nat_mul_normCircleGap_pos {n : ℕ} (hn : n ≠ 0) (c : ℂ) {r : ℝ} (hr : 0 < r) :
     0 < √(n : ℝ) * normCircleGap c r :=
   sqrt_mul_normCircleGap_pos c hr (by exact_mod_cast Nat.pos_of_ne_zero hn)
+
+end CofiniteDerivatives

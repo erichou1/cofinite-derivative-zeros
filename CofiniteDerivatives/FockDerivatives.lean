@@ -191,3 +191,5 @@ theorem aemeasurable_iteratedDeriv_fockFunction
   exact (summable_fockIteratedSeries ξ hξ n z).hasSum.tendsto_sum_nat
 
 end
+
+end CofiniteDerivatives
