@@ -108,3 +108,5 @@ theorem uniformDisk_affine_smallBall {a : ℂ} (ha : a ≠ 0) (w : ℂ) {ε : �
         ENNReal.coe_ne_top
 
 end
+
+end CofiniteDerivatives

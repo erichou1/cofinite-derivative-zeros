@@ -245,3 +245,5 @@ theorem not_exists_polynomial_eval_eq_fockFunction (ξ : ℕ → ℂ) (hξ : ∀
   exact (hp z).symm
 
 end
+
+end CofiniteDerivatives

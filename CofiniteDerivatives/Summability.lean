@@ -85,3 +85,5 @@ theorem summable_exp_neg_sqrt_sub_log {a C0 : ℝ} (ha : 0 < a) :
     (summable_exp_neg_mul_sqrt (by positivity : 0 < a / 16)).congr_atTop <|
       hle.mono fun _ hn => (max_eq_right hn).symm
   exact hmajor.of_nonneg_of_le (fun _ => Real.exp_nonneg _) fun _ => le_max_left _ _
+
+end CofiniteDerivatives

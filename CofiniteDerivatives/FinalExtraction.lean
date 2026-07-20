@@ -66,3 +66,5 @@ theorem exists_randomFock_final_of_summable_holes
     (derivativesCofinitelyHit_iff_everyDerivativeSubsequenceDense (randomFock ω)).mp
       hderivatives
   exact ⟨ω, analyticOnNhd_randomFock ω, hnonpolynomial, hderivatives, hsubsequences⟩
+
+end CofiniteDerivatives
