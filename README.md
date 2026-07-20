@@ -39,6 +39,9 @@ The last command prints the final theorem and its axiom dependencies. The expect
 
 The project-owned Lean sources contain no `sorry`, `admit`, or custom `axiom` declarations.
 
+The source revision audited by the accompanying manuscript is
+[`6f2b763e4c82c5c8662338b1cea5893d14264078`](https://github.com/erichou1/cofinite-derivative-zeros/tree/6f2b763e4c82c5c8662338b1cea5893d14264078).
+
 ## Proof architecture
 
 The formal proof uses an iid bounded-coefficient Fock series
@@ -49,4 +52,8 @@ f(z) = sum_k ξ_k z^k / sqrt(k!),
 
 where each `ξ_k` is uniformly distributed on the complex unit disk. The development formalizes the exact derivative series, entire convergence and nonpolynomiality, saddle estimates, affine small-ball bounds, Jensen's formula, event-dependent logarithmic concentration, summable hole probabilities, a countable rational disk basis, the first Borel-Cantelli lemma, and deterministic sample extraction.
 
-The accompanying manuscript is in [`paper.tex`](paper.tex).
+The accompanying manuscript is in [`paper.tex`](paper.tex). It can be compiled with:
+
+```sh
+tectonic paper.tex
+```
