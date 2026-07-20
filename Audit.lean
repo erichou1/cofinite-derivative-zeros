@@ -1,0 +1,4 @@
+import CofiniteDerivatives
+
+#print CofiniteDerivatives.exists_transcendental_entire_with_explicit_derivative_zeros
+#print axioms CofiniteDerivatives.exists_transcendental_entire_with_explicit_derivative_zeros
