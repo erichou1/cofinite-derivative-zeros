@@ -21,16 +21,18 @@
 
 \begin{document}
 
-\begin{abstract}
-We construct a nonzero transcendental entire function such that every nonempty open subset of the complex plane contains a zero of every sufficiently high derivative; equivalently, the union of the zero sets along every infinite increasing sequence of derivative orders is dense.  The construction is probabilistic and uses a bounded-coefficient Fock series.  A saddle estimate, a one-coordinate small-ball bound, and Jensen's formula give summable outer probabilities for zero-free disks.  The first Borel--Cantelli lemma and a countable disk basis then produce a deterministic sample with the required property.  A machine-checked Lean 4 formalization of the theorem and its supporting lemmas is available in the accompanying repository.
-\end{abstract}
-
 \maketitle
 
 \begin{center}
-Eric Hou\\
+Eric Hou\\[0.75em]
 July 20, 2026
 \end{center}
+
+\vspace{1em}
+
+\begin{abstract}
+We construct a nonzero transcendental entire function such that every nonempty open subset of the complex plane contains a zero of every sufficiently high derivative; equivalently, the union of the zero sets along every infinite increasing sequence of derivative orders is dense.  The construction is probabilistic and uses a bounded-coefficient Fock series.  A saddle estimate, a one-coordinate small-ball bound, and Jensen's formula give summable outer probabilities for zero-free disks.  The first Borel--Cantelli lemma and a countable disk basis then produce a deterministic sample with the required property.  A machine-checked Lean 4 formalization of the theorem and its supporting lemmas is available in the accompanying repository.
+\end{abstract}
 
 \section{Statement and reduction}
 
@@ -274,7 +276,7 @@ The verified source revision is
 The project is pinned to Lean~4.28.0 and Mathlib~v4.28.0 \cite{Mathlib}.  Running \texttt{lake build CofiniteDerivatives} and then \texttt{lake env lean Audit.lean} checks the build and prints the theorem's axiom dependencies; the project-owned sources contain no \texttt{sorry}, \texttt{admit}, or custom axiom.
 
 \section*{Acknowledgments}
-The author used GitHub Copilot with GPT-5.6 Sol to explore candidate constructions; locate relevant Mathlib APIs; generate, refactor, and debug Lean code; formulate the saddle, small-ball, Jensen, and Borel--Cantelli components; run independent adversarial audits; and assist with drafting and editing the manuscript.  The author checked the mathematical argument against the compiled Lean development, reran the complete build and kernel axiom report, and takes responsibility for the proof and exposition.
+I used GitHub Copilot with GPT-5.6 Sol to explore candidate constructions; locate relevant Mathlib APIs; generate, refactor, and debug Lean code; formulate the saddle, small-ball, Jensen, and Borel--Cantelli components; run independent adversarial audits; and assist with drafting and editing the manuscript.  I checked the mathematical argument against the compiled Lean development, reran the complete build and kernel axiom report, and take responsibility for the proof and exposition.
 
 \begin{thebibliography}{9}
 
@@ -286,7 +288,7 @@ J.~B. Conway,
 \bibitem{Durrett}
 R. Durrett,
 \emph{Probability: Theory and Examples},
-5th ed., Cambridge Series in Statistical and Probabilistic Mathematics, Cambridge University Press, Cambridge, 2019.
+5th ed., Cambridge Series in Probability and Probabilistic Mathematics, Cambridge University Press, Cambridge, 2019.
 
 \bibitem{Kahane}
 J.-P. Kahane,
