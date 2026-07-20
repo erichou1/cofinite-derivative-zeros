@@ -27,13 +27,15 @@ We construct a nonzero transcendental entire function such that every nonempty o
 
 \maketitle
 
+\begin{center}
+Eric Hou \qquad July 20, 2026
+\end{center}
+
 \section{Statement and reduction}
 
 For an entire function $f$ and a nonempty open set $U\subset\C$, put
-\[
- A_U(f)=\{n\in\N:f^{(n)}\text{ has a zero in }U\}.
-\]
-We begin with the elementary quantifier reduction that will be used at the end.
+$A_U(f)=\{n\in\N:f^{(n)}\text{ has a zero in }U\}$.  We begin with the
+elementary quantifier reduction that will be used at the end.
 
 \begin{lemma}\label{lem:cofinite}
 For an entire function $f$, the following assertions are equivalent.
@@ -64,7 +66,7 @@ Here and below, ``transcendental entire'' means entire and nonpolynomial.  The f
 
 \section{The random Fock series}
 
-Let $\xi_0,\xi_1,\ldots$ be independent random variables, each uniformly distributed on the closed unit disk $\overline\D$.  Thus normalized planar area is their common law.  Define
+Let $\xi_0,\xi_1,\ldots$ be independent random variables, each uniformly distributed on the closed unit disk $\overline\D$.  Thus normalized planar area is their common law.  This is a bounded random analytic series in the sense of the classical theory; see, for example, \cite{Kahane}.  Define
 \begin{equation}\label{eq:fock}
  f(z)=\sum_{k=0}^{\infty}\xi_k\frac{z^k}{\sqrt{k!}}.
 \end{equation}
@@ -76,11 +78,8 @@ Since $|\xi_k|\leq1$, the series converges normally on every compact subset of $
 The common coefficient law has no atoms, so almost surely $\xi_k\neq0$ for every $k$.  On that event all Taylor coefficients in \eqref{eq:fock} are nonzero, and hence $f$ is not a polynomial.
 
 We next establish the deterministic estimates behind the zero argument.  For $r\geq0$ set
-\[
- a_{n,m}(r)=\frac{\sqrt{(n+m)!}}{m!}r^m,
- \qquad S_n(r)=\sum_{m=0}^{\infty}a_{n,m}(r),
-\]
-and define the potential and loss
+$a_{n,m}(r)=\sqrt{(n+m)!}\,r^m/m!$ and
+$S_n(r)=\sum_{m=0}^{\infty}a_{n,m}(r)$, and define the potential and loss
 \begin{equation}\label{eq:potential}
  p_n(z)=\frac12\log(n!)+|z|\sqrt n,
  \qquad L_n=2+\frac12\log n.
@@ -156,7 +155,7 @@ Suppose $1\leq |z|\sqrt n$ and $|z|\leq\sqrt n$.  For $s\geq0$,
 \begin{equation}\label{eq:pointwise-tail}
  \Pp\left\{p_n(z)-\log|F_n(z)|>s+L_n\right\}\leq e^{-2s}.
 \end{equation}
-Here $\log0=-\infty$, so the left side is understood by the corresponding small-ball event.
+At a zero we assign the representative value $\log0=0$.  This agrees with the Lean development and changes neither the pointwise probability, since the one-point law is nonatomic, nor any circle integral, since the zeros of a nonzero analytic function are isolated.
 \end{lemma}
 
 \begin{proof}
@@ -216,7 +215,7 @@ Fix $c\neq0$ and $0<R<|c|$, and put $r=R/2$.  The circle $|z-c|=r$ lies in an an
 \]
 The pointwise tail in Lemma~\ref{lem:pointwise} is stronger than the hypothesis of Lemma~\ref{lem:circle-tail}, so the latter applies to $\overline D_n$.  The logarithms are locally integrable on each circle because $F_n$ is analytic and not identically zero almost surely; alternatively, integrability follows directly from the uniform pointwise tail.  Joint measurability follows from normal convergence of the random series and measurable finite partial sums.
 
-Let $H_n(c,R)$ be the set of samples for which $F_n$ has no zero in $B(c,R)$.  On this set $F_n$ is zero-free on $\overline{B(c,r)}$, and Jensen's formula gives
+Let $H_n(c,R)$ be the set of samples for which $F_n$ has no zero in $B(c,R)$.  On this set $F_n$ is zero-free on $\overline{B(c,r)}$, and Jensen's formula \cite[Chapter~III]{Conway} gives
 \begin{equation}\label{eq:jensen}
  \frac1{2\pi}\int_0^{2\pi}\log|F_n(c+re^{i\theta})|\,d\theta
  =\log|F_n(c)|.
@@ -242,7 +241,7 @@ for all sufficiently large $n$.  The series of the right-hand side converges; fo
 \begin{equation}\label{eq:summable-holes}
  \sum_{n=0}^{\infty}\Pp^*\bigl(H_n(c,R)\bigr)<\infty.
 \end{equation}
-This formulation avoids a separate measurability argument for the zero-free sets.  The first Borel--Cantelli estimate remains valid for arbitrary subsets: if $\sum_n\Pp^*(H_n)<\infty$, then $\Pp^*(\limsup_n H_n)=0$.
+This formulation avoids a separate measurability argument for the zero-free sets.  The first Borel--Cantelli estimate \cite[Section~2.3]{Durrett} remains valid for arbitrary subsets: if $\sum_n\Pp^*(H_n)<\infty$, then $\Pp^*(\limsup_n H_n)=0$.
 
 Choose a countable family $\mathcal B$ of disks $B(c,R)$ with $c\in\mathbb Q+i\mathbb Q$, $R\in\mathbb Q_{>0}$, and $R<|c|$.  This is still an inner base for $\C$: every nonempty open set contains a nonzero point, then a nearby nonzero rational point and a sufficiently small rational disk around it.  For each $B\in\mathcal B$, \eqref{eq:summable-holes} and the first Borel--Cantelli lemma show that outside an outer-null set only finitely many $F_n$ are zero-free in $B$.  The countable union of these exceptional outer-null sets is outer-null.  Intersecting its complement with the probability-one event that every $\xi_k$ is nonzero gives a nonempty event on which all conclusions hold simultaneously.
 
@@ -265,6 +264,33 @@ explicit\_derivative\_zeros
 The verified source revision is
 \href{https://github.com/erichou1/cofinite-derivative-zeros/tree/6f2b763e4c82c5c8662338b1cea5893d14264078}
 {\texttt{6f2b763e4c82}} (full SHA in the link target).
-The project is pinned to Lean~4.28.0 and Mathlib~v4.28.0.  Running \texttt{lake build CofiniteDerivatives} and then \texttt{lake env lean Audit.lean} checks the build and prints the theorem's axiom dependencies; the project-owned sources contain no \texttt{sorry}, \texttt{admit}, or custom axiom.
+The project is pinned to Lean~4.28.0 and Mathlib~v4.28.0 \cite{Mathlib}.  Running \texttt{lake build CofiniteDerivatives} and then \texttt{lake env lean Audit.lean} checks the build and prints the theorem's axiom dependencies; the project-owned sources contain no \texttt{sorry}, \texttt{admit}, or custom axiom.
+
+\section*{Acknowledgments}
+The author used GitHub Copilot and OpenAI language models to assist with proof exploration, Lean code generation and debugging, manuscript drafting, and editorial review.  Every mathematical claim was subsequently checked against the compiled Lean development, and the final manuscript and formal source were independently subjected to automated and adversarial consistency checks.  The author remains responsible for the arguments and exposition.
+
+\begin{thebibliography}{9}
+
+\bibitem{Conway}
+J.~B. Conway,
+\emph{Functions of One Complex Variable I},
+2nd ed., Graduate Texts in Mathematics, vol.~11, Springer-Verlag, New York, 1978.
+
+\bibitem{Durrett}
+R. Durrett,
+\emph{Probability: Theory and Examples},
+5th ed., Cambridge Series in Statistical and Probabilistic Mathematics, Cambridge University Press, Cambridge, 2019.
+
+\bibitem{Kahane}
+J.-P. Kahane,
+\emph{Some Random Series of Functions},
+2nd ed., Cambridge Studies in Advanced Mathematics, vol.~5, Cambridge University Press, Cambridge, 1985.
+
+\bibitem{Mathlib}
+The Mathlib Community,
+\emph{Mathlib: the mathematical library of Lean 4},
+\url{https://github.com/leanprover-community/mathlib4}, accessed July 20, 2026.
+
+\end{thebibliography}
 
 \end{document}
