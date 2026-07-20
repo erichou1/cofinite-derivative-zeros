@@ -331,3 +331,5 @@ theorem log_saddleSeries_le_on_compact (n : ℕ) {r R : ℝ} (hn : n ≠ 0)
   have hcorrection : r + r ^ 2 ≤ R + R ^ 2 := by
     nlinarith [sq_nonneg (R - r)]
   linarith [log_saddleSeries_le n hn hr]
+
+end CofiniteDerivatives
