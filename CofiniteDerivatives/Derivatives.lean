@@ -41,4 +41,17 @@ theorem derivativesCofinitelyHit_iff (f : ℂ → ℂ) :
     rcases hN n hn with ⟨z, hzU, hz⟩
     exact ⟨z, hz, hzU⟩
 
+/-- Under cofinite hitting, only finitely many derivatives can be zero-free on any fixed
+positive-radius disk. -/
+theorem finite_zeroFree_derivative_orders_on_ball
+    (f : ℂ → ℂ) (hf : DerivativesCofinitelyHit f) (c : ℂ) {R : ℝ} (hR : 0 < R) :
+    {n : ℕ | ∀ z ∈ Metric.ball c R, iteratedDeriv n f z ≠ 0}.Finite := by
+  obtain ⟨N, hN⟩ := (derivativesCofinitelyHit_iff f).mp hf
+    (Metric.ball c R) Metric.isOpen_ball (Metric.nonempty_ball.mpr hR)
+  apply (finite_Iio N).subset
+  intro n hn
+  by_contra hnN
+  obtain ⟨z, hzball, hzero⟩ := hN n (Nat.le_of_not_gt hnN)
+  exact hn z hzball hzero
+
 end CofiniteDerivatives

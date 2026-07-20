@@ -18,21 +18,16 @@
 \newtheorem{lemma}[theorem]{Lemma}
 
 \title{Cofinite Zeros of High Derivatives}
+\author[Eric Hou]{Eric Hou\\\rule{0pt}{1.1em}\normalfont July 20, 2026}
+\date{}
 
 \begin{document}
 
-\maketitle
-
-\begin{center}
-Eric Hou\\[0.75em]
-July 20, 2026
-\end{center}
-
-\vspace{1em}
-
 \begin{abstract}
-We construct a nonzero transcendental entire function such that every nonempty open subset of the complex plane contains a zero of every sufficiently high derivative; equivalently, the union of the zero sets along every infinite increasing sequence of derivative orders is dense.  The construction is probabilistic and uses a bounded-coefficient Fock series.  A saddle estimate, a one-coordinate small-ball bound, and Jensen's formula give summable outer probabilities for zero-free disks.  The first Borel--Cantelli lemma and a countable disk basis then produce a deterministic sample with the required property.  A machine-checked Lean 4 formalization of the theorem and its supporting lemmas is available in the accompanying repository.
+We construct a nonzero transcendental entire function such that every nonempty open subset of the complex plane contains a zero of every sufficiently high derivative; equivalently, the union of the zero sets along every infinite increasing sequence of derivative orders is dense.  The construction is probabilistic and uses a bounded-coefficient Fock series.  A saddle estimate, a one-coordinate small-ball bound, and Jensen's formula give summable outer probabilities for zero-free disks.  The resulting function satisfies the explicit growth bound $|f(z)|\leq\sqrt2\exp(|z|^2)$ and therefore also supplies a counterexample to a 1973 theorem of Boas and Reddy as printed.  A machine-checked Lean 4 formalization verifies the existence theorem, the growth bound, and their supporting lemmas.
 \end{abstract}
+
+\maketitle
 
 \section{Statement and reduction}
 
@@ -62,10 +57,14 @@ There is a nonzero nonpolynomial entire function $f$ such that, for every nonemp
  n\geq N(U)\quad\Longrightarrow\quad
  \text{$f^{(n)}$ has a zero in $U$}.
 \]
+The same function can be chosen to satisfy
+\begin{equation}\label{eq:growth}
+ |f(z)|\leq \sqrt2\exp(|z|^2)\qquad(z\in\C).
+\end{equation}
 Consequently, the zero sets of the derivatives indexed by every strictly increasing sequence have dense union.
 \end{theorem}
 
-Here and below, ``transcendental entire'' means entire and nonpolynomial.  The final assertion follows from Lemma~\ref{lem:cofinite}; the rest of the paper proves the cofinite assertion.
+Here and below, ``transcendental entire'' means entire and nonpolynomial.  This answers the intended transcendental form of Erd\H{o}s Problem~\#906 \cite{Bloom906}.  The final assertion follows from Lemma~\ref{lem:cofinite}; the rest of the paper proves the cofinite assertion and the growth bound.
 
 \section{The random Fock series}
 
@@ -79,6 +78,17 @@ Since $|\xi_k|\leq1$, the series converges normally on every compact subset of $
        \frac{\sqrt{(n+m)!}}{m!}z^m.
 \end{equation}
 The common coefficient law has no atoms, so almost surely $\xi_k\neq0$ for every $k$.  On that event all Taylor coefficients in \eqref{eq:fock} are nonzero, and hence $f$ is not a polynomial.
+
+For later comparison with the literature, we record the growth of every sample.  Applying Cauchy--Schwarz with weights $2^{k/2}$ gives
+\begin{align*}
+ |f(z)|
+ &\leq \sum_{k\geq0}\frac{|z|^k}{\sqrt{k!}}\\
+ &\leq
+ \left(\sum_{k\geq0}\frac{2^k|z|^{2k}}{k!}\right)^{1/2}
+ \left(\sum_{k\geq0}2^{-k}\right)^{1/2}
+ =\sqrt2\exp(|z|^2).
+\end{align*}
+Thus \eqref{eq:growth} holds deterministically.  In particular, the resulting function has order at most $2$ and finite type in the usual terminology of entire-function theory.
 
 We next establish the deterministic estimates behind the zero argument.  For $r\geq0$ set
 $a_{n,m}(r)=\sqrt{(n+m)!}\,r^m/m!$ and
@@ -256,6 +266,18 @@ Choose a countable family $\mathcal B$ of disks $B(c,R)$ with $c\in\mathbb Q+i\m
 
 Select a sample in this event and denote its entire function by $f$.  It is nonzero and nonpolynomial.  If $U\subset\C$ is nonempty and open, choose $B\in\mathcal B$ with $B\subset U$.  All sufficiently high derivatives of $f$ have a zero in $B$, hence in $U$.  This proves Theorem~\ref{thm:main}; Lemma~\ref{lem:cofinite} supplies the equivalent subsequence statement.
 
+\section{Relation to a theorem of Boas and Reddy}\label{sec:boas-reddy}
+
+Boas and Reddy state in \cite[Theorem~1]{BoasReddyAnnouncement} that if an entire function has order at most $2$ and finite type, then there is an arbitrarily large disk, somewhere in the plane, on which infinitely many of its successive derivatives are zero-free.  The paragraph on the following page explicitly describes this as one fixed disk that is zero-free for infinitely many derivatives.  Their expanded article is \cite{BoasReddyFull}.
+
+That assertion is incompatible with Theorem~\ref{thm:main}, not merely with a stronger uniform-density statement.  Indeed, let $D$ be any fixed nonempty open disk.  Theorem~\ref{thm:main} gives an $N(D)$ such that $f^{(n)}$ has a zero in $D$ for every $n\geq N(D)$.  Hence only finitely many derivatives can be zero-free on $D$.  On the other hand, \eqref{eq:growth} places this same function within the growth class of the printed Boas--Reddy assertion.  We conclude:
+
+\begin{theorem}\label{thm:boas-reddy-correction}
+Theorem~1 of \cite{BoasReddyAnnouncement} is false as printed.
+\end{theorem}
+
+The proof above is independent of the Boas--Reddy papers.  The accompanying Lean theorem packages the cofinite conclusion and \eqref{eq:growth} for the same witness, so the correction does not depend on an informal identification of two separately constructed functions.
+
 \medskip
 \noindent\textbf{Formal verification.}
 A machine-checked Lean 4 formalization of the main theorem and the supporting exact iterated-derivative formula, saddle estimates, small-ball and logarithmic-tail bounds, Jensen argument, summable hole probabilities, countable-base reduction, and deterministic extraction is available at
@@ -268,17 +290,38 @@ The expanded public theorem is
 \ttfamily
 CofiniteDerivatives.\\
 exists\_transcendental\_entire\_with\_\\
-explicit\_derivative\_zeros
+explicit\_derivative\_zeros\_\\
+and\_growth
 \end{center}
-The verified source revision is
-\href{https://github.com/erichou1/cofinite-derivative-zeros/tree/6f2b763e4c82c5c8662338b1cea5893d14264078}
-{\texttt{6f2b763e4c82}} (full SHA in the link target).
-The project is pinned to Lean~4.28.0 and Mathlib~v4.28.0 \cite{Mathlib}.  Running \texttt{lake build CofiniteDerivatives} and then \texttt{lake env lean Audit.lean} checks the build and prints the theorem's axiom dependencies; the project-owned sources contain no \texttt{sorry}, \texttt{admit}, or custom axiom.
+The project is pinned to Lean~4.28.0 and Mathlib~v4.28.0 \cite{Mathlib}.  The commands
+\[
+\texttt{lake build CofiniteDerivatives}
+\qquad\text{and}\qquad
+\texttt{lake env lean Audit.lean}
+\]
+check the build and print the theorem's axiom dependencies.  The project-owned sources contain no \texttt{sorry}, \texttt{admit}, or custom axiom.
 
 \section*{Acknowledgments}
 GPT-5.6 Sol assisted with proving the small-ball estimate, developing and checking the Lean formalization, and editing the manuscript.  The author verified the argument and takes responsibility for the proof and exposition.
 
 \begin{thebibliography}{9}
+
+\bibitem{Bloom906}
+T.~F. Bloom,
+\emph{Erd\H{o}s Problem \#906},
+\url{https://www.erdosproblems.com/906}, accessed July 20, 2026.
+
+\bibitem{BoasReddyAnnouncement}
+R.~P. Boas, Jr. and A.~R. Reddy,
+\emph{Zeros of successive derivatives of entire functions},
+Bull. Amer. Math. Soc. \textbf{79} (1973), 64--65,
+\url{https://doi.org/10.1090/S0002-9904-1973-13093-9}.
+
+\bibitem{BoasReddyFull}
+R.~P. Boas, Jr. and A.~R. Reddy,
+\emph{Zeros of the successive derivatives of entire functions},
+J. Math. Anal. Appl. \textbf{42} (1973), 466--473,
+\url{https://doi.org/10.1016/0022-247X(73)90153-4}.
 
 \bibitem{Conway}
 J.~B. Conway,

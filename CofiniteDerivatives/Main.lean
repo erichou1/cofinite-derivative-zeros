@@ -1,4 +1,5 @@
 import CofiniteDerivatives.FinalExtraction
+import CofiniteDerivatives.FockGrowth
 import CofiniteDerivatives.HoleBound
 import CofiniteDerivatives.Summability
 
@@ -141,20 +142,36 @@ theorem exists_transcendental_entire_with_cofinite_derivative_zeros :
       (fun j => randomFockDiskHole_tsum_lt_top j)
   exact ⟨randomFock ω, hentire, hnonpoly, hcofinite, hdense⟩
 
-/-- The final theorem with all project definitions expanded into the quantifier order of the
-original statement. -/
-theorem exists_transcendental_entire_with_explicit_derivative_zeros :
+/-- The bounded Fock witness also has an explicit quadratic exponential majorant. -/
+theorem exists_transcendental_entire_with_cofinite_derivative_zeros_and_growth :
+    ∃ f : ℂ → ℂ,
+      AnalyticOnNhd ℂ f Set.univ ∧
+      (¬ ∃ p : ℂ[X], ∀ z : ℂ, p.eval z = f z) ∧
+      DerivativesCofinitelyHit f ∧
+      EveryDerivativeSubsequenceDense f ∧
+      (∀ z : ℂ, ‖f z‖ ≤ Real.sqrt 2 * Real.exp (‖z‖ ^ 2)) := by
+  obtain ⟨ω, hentire, hnonpoly, hcofinite, hdense⟩ :=
+    exists_randomFock_final_of_summable_holes
+      (fun j => randomFockDiskHole_tsum_lt_top j)
+  exact ⟨randomFock ω, hentire, hnonpoly, hcofinite, hdense,
+    fun z => norm_fockFunction_le_sqrt_two_mul_exp_sq
+      (fun k => clipDisk (ω k)) (fun k => norm_clipDisk_le_one (ω k)) z⟩
+
+/-- The final theorem with the growth bound and all project definitions expanded into the
+quantifier order of the original statement. -/
+theorem exists_transcendental_entire_with_explicit_derivative_zeros_and_growth :
     ∃ f : ℂ → ℂ,
       f ≠ 0 ∧
-  AnalyticOnNhd ℂ f Set.univ ∧
+      AnalyticOnNhd ℂ f Set.univ ∧
       Differentiable ℂ f ∧
       (¬ ∃ p : ℂ[X], ∀ z : ℂ, p.eval z = f z) ∧
+      (∀ z : ℂ, ‖f z‖ ≤ Real.sqrt 2 * Real.exp (‖z‖ ^ 2)) ∧
       (∀ U : Set ℂ, IsOpen U → U.Nonempty →
         ∃ N, ∀ n ≥ N, ∃ z ∈ U, iteratedDeriv n f z = 0) ∧
       (∀ s : ℕ → ℕ, StrictMono s →
         Dense {z : ℂ | ∃ k, iteratedDeriv (s k) f z = 0}) := by
-  obtain ⟨f, hentire, hnonpoly, hcofinite, hdense⟩ :=
-    exists_transcendental_entire_with_cofinite_derivative_zeros
+  obtain ⟨f, hentire, hnonpoly, hcofinite, hdense, hgrowth⟩ :=
+    exists_transcendental_entire_with_cofinite_derivative_zeros_and_growth
   have hnonzero : f ≠ 0 := by
     intro hf
     apply hnonpoly
@@ -175,7 +192,23 @@ theorem exists_transcendental_entire_with_explicit_derivative_zeros :
     intro z
     exact (hentire z (Set.mem_univ z)).differentiableAt
   exact ⟨f, hnonzero, hentire, hdifferentiable,
-    hnonpoly, hquantifiers, hsubsequences⟩
+    hnonpoly, hgrowth, hquantifiers, hsubsequences⟩
+
+/-- Compatibility wrapper for the original fully expanded theorem statement. -/
+theorem exists_transcendental_entire_with_explicit_derivative_zeros :
+    ∃ f : ℂ → ℂ,
+      f ≠ 0 ∧
+      AnalyticOnNhd ℂ f Set.univ ∧
+      Differentiable ℂ f ∧
+      (¬ ∃ p : ℂ[X], ∀ z : ℂ, p.eval z = f z) ∧
+      (∀ U : Set ℂ, IsOpen U → U.Nonempty →
+        ∃ N, ∀ n ≥ N, ∃ z ∈ U, iteratedDeriv n f z = 0) ∧
+      (∀ s : ℕ → ℕ, StrictMono s →
+        Dense {z : ℂ | ∃ k, iteratedDeriv (s k) f z = 0}) := by
+  obtain ⟨f, hnonzero, hentire, hdifferentiable, hnonpoly, _hgrowth,
+      hquantifiers, hsubsequences⟩ :=
+    exists_transcendental_entire_with_explicit_derivative_zeros_and_growth
+  exact ⟨f, hnonzero, hentire, hdifferentiable, hnonpoly, hquantifiers, hsubsequences⟩
 
 end
 

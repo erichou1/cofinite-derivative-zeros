@@ -7,6 +7,7 @@ import CofiniteDerivatives.DiskBasis
 import CofiniteDerivatives.UniformDisk
 import CofiniteDerivatives.FockSeries
 import CofiniteDerivatives.FockDerivatives
+import CofiniteDerivatives.FockGrowth
 import CofiniteDerivatives.Saddle
 import CofiniteDerivatives.LogMoment
 import CofiniteDerivatives.CircleLogTail
