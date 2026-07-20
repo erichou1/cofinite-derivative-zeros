@@ -1,1 +1,302 @@
+\documentclass[a4paper]{amsart}
 
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\N}{\mathbb N}
+\newcommand{\D}{\mathbb D}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Zf}{\mathcal Z}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\dd}{\,d}
+\DeclareMathOperator{\dist}{dist}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\title{Cofinite Zeros of High Derivatives}
+
+\begin{document}
+
+\begin{abstract}
+We construct a nonzero transcendental entire function such that every nonempty open subset of the complex plane contains a zero of every sufficiently high derivative; equivalently, the union of the zero sets along every infinite increasing sequence of derivative orders is dense.  The construction is probabilistic and uses a bounded-coefficient Fock series.  A saddle estimate, a one-coordinate small-ball bound, and Jensen's formula give summable outer probabilities for zero-free disks.  The first Borel--Cantelli lemma and a countable disk basis then produce a deterministic sample with the required property.  A machine-checked Lean 4 formalization of the theorem and its supporting lemmas is available in the accompanying repository.
+\end{abstract}
+
+\maketitle
+
+\begin{center}
+Eric Hou \qquad July 20, 2026
+\end{center}
+
+\section{Statement and reduction}
+
+For an entire function $f$ and a nonempty open set $U\subset\C$, put
+$A_U(f)=\{n\in\N:f^{(n)}\text{ has a zero in }U\}$.  We begin with the
+elementary quantifier reduction that will be used at the end.
+
+\begin{lemma}\label{lem:cofinite}
+For an entire function $f$, the following assertions are equivalent.
+\begin{enumerate}
+\item For every strictly increasing sequence $(n_k)_{k\geq 0}$ of nonnegative integers, the set
+\[
+ \bigcup_{k\geq0}\{z\in\C:f^{(n_k)}(z)=0\}
+\]
+is dense in $\C$.
+\item For every nonempty open $U\subset\C$, the set $A_U(f)$ is cofinite in $\N$, meaning that its complement is finite.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Assume (2), fix $U$, and let $(n_k)$ be strictly increasing.  Since $(n_k)$ is unbounded, some $n_k$ lies beyond the finite exceptional set $\N\setminus A_U(f)$; hence the displayed union meets $U$.  Conversely, if $\N\setminus A_U(f)$ is infinite, enumerate it increasingly as $(n_k)$.  Every zero set of $f^{(n_k)}$ then misses $U$, so their union is not dense.
+\end{proof}
+
+\begin{theorem}\label{thm:main}
+There is a nonzero nonpolynomial entire function $f$ such that, for every nonempty open set $U\subset\C$, there exists $N(U)$ with
+\[
+ n\geq N(U)\quad\Longrightarrow\quad
+ \text{$f^{(n)}$ has a zero in $U$}.
+\]
+Consequently, the zero sets of the derivatives indexed by every strictly increasing sequence have dense union.
+\end{theorem}
+
+Here and below, ``transcendental entire'' means entire and nonpolynomial.  The final assertion follows from Lemma~\ref{lem:cofinite}; the rest of the paper proves the cofinite assertion.
+
+\section{The random Fock series}
+
+Let $\xi_0,\xi_1,\ldots$ be independent random variables, each uniformly distributed on the closed unit disk $\overline\D$.  Thus normalized planar area is their common law.  This is a bounded random analytic series in the sense of the classical theory; see, for example, \cite{Kahane}.  Define
+\begin{equation}\label{eq:fock}
+ f(z)=\sum_{k=0}^{\infty}\xi_k\frac{z^k}{\sqrt{k!}}.
+\end{equation}
+Since $|\xi_k|\leq1$, the series converges normally on every compact subset of $\C$, for every sample.  It therefore defines an entire function and may be differentiated termwise.  For $n\geq0$ write $F_n=f^{(n)}$; then
+\begin{equation}\label{eq:derivative}
+ F_n(z)=\sum_{m=0}^{\infty}\xi_{n+m}
+       \frac{\sqrt{(n+m)!}}{m!}z^m.
+\end{equation}
+The common coefficient law has no atoms, so almost surely $\xi_k\neq0$ for every $k$.  On that event all Taylor coefficients in \eqref{eq:fock} are nonzero, and hence $f$ is not a polynomial.
+
+We next establish the deterministic estimates behind the zero argument.  For $r\geq0$ set
+$a_{n,m}(r)=\sqrt{(n+m)!}\,r^m/m!$ and
+$S_n(r)=\sum_{m=0}^{\infty}a_{n,m}(r)$, and define the potential and loss
+\begin{equation}\label{eq:potential}
+ p_n(z)=\frac12\log(n!)+|z|\sqrt n,
+ \qquad L_n=2+\frac12\log n.
+\end{equation}
+The occurrence of $\log n$ below is always under hypotheses implying $n\geq1$.
+
+\begin{lemma}[Saddle estimates]\label{lem:saddle}
+Let $n\geq1$.
+\begin{enumerate}
+\item If $r\geq0$, $1\leq r\sqrt n$, and $r\leq\sqrt n$, then for $m=\lfloor r\sqrt n\rfloor$,
+\[
+ \log a_{n,m}(r)\geq \frac12\log(n!)+r\sqrt n-2-\frac12\log n.
+\]
+\item For every $r\geq0$,
+\[
+ \log S_n(r)\leq \frac12\log(n!)+r\sqrt n+\frac{r+r^2}{2}.
+\]
+Consequently, if $|\xi_k|\leq1$ and $|z|\leq R$, then
+\begin{equation}\label{eq:upper}
+ \log|F_n(z)|-p_n(z)\leq \frac{R+R^2}{2},
+\end{equation}
+with the inequality interpreted trivially if $F_n(z)=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Factor $a_{n,m}(r)=\sqrt{n!}\,b_{n,m}(r)$, where
+\[
+ b_{n,m}(r)=\frac{\sqrt{(n+1)(n+2)\cdots(n+m)}}{m!}r^m.
+\]
+Writing $x=r\sqrt n$, we have $b_{n,m}(r)\geq x^m/m!$.  For $m=\lfloor x\rfloor$, the assumptions give $1\leq m\leq x\leq n$.  The elementary Stirling bound
+\[
+ \log(m!)\leq m\log m-m+\frac12\log m+1
+\]
+then yields, in one line,
+\[
+ \log\frac{x^m}{m!}
+ \geq m\log\frac{x}{m}+m-\frac12\log m-1
+ \geq x-2-\frac12\log n,
+\]
+which proves (1).
+
+For (2), use
+\[
+ b_{n,m}(r)=\sqrt{\frac{\binom{n+m}{n}}{m!}}\,r^m.
+\]
+When $r>0$, put $t=r/(r+\sqrt n)\in(0,1)$.  Cauchy--Schwarz and the negative-binomial and exponential series give
+\begin{align*}
+ \sum_{m\geq0}b_{n,m}(r)
+ &\leq
+ \left(\sum_{m\geq0}\binom{n+m}{n}t^m\right)^{1/2}
+ \left(\sum_{m\geq0}\frac{(r^2/t)^m}{m!}\right)^{1/2}\\
+ &=(1-t)^{-(n+1)/2}\exp\left(\frac{r^2}{2t}\right).
+\end{align*}
+Since $\log(1+u)\leq u$ for $u\geq0$ and $\sqrt n\geq1$,
+\[
+ \frac{n+1}{2}\log\left(1+\frac r{\sqrt n}\right)
+ +\frac{r(r+\sqrt n)}2
+ \leq r\sqrt n+\frac{r+r^2}{2}.
+\]
+The case $r=0$ is immediate.  Finally, \eqref{eq:derivative} and the triangle inequality give $|F_n(z)|\leq S_n(|z|)$, proving \eqref{eq:upper}.
+\end{proof}
+
+The second ingredient is anti-concentration.  Normalized area on $\overline\D$ satisfies, for $a\neq0$, $w\in\C$, and $\varepsilon\geq0$,
+\begin{equation}\label{eq:smallball}
+ \Pp\{|a\xi+w|<\varepsilon\}
+ \leq \left(\frac{\varepsilon}{|a|}\right)^2.
+\end{equation}
+Indeed, the preimage in $\overline\D$ is contained in a disk of radius $\varepsilon/|a|$, and the factor $\pi$ cancels under normalization.
+
+\begin{lemma}[Pointwise logarithmic tail]\label{lem:pointwise}
+Suppose $1\leq |z|\sqrt n$ and $|z|\leq\sqrt n$.  For $s\geq0$,
+\begin{equation}\label{eq:pointwise-tail}
+ \Pp\left\{p_n(z)-\log|F_n(z)|>s+L_n\right\}\leq e^{-2s}.
+\end{equation}
+At a zero we assign the representative value $\log0=0$.  This agrees with the Lean development and changes neither the pointwise probability, since the one-point law is nonatomic, nor any circle integral, since the zeros of a nonzero analytic function are isolated.
+\end{lemma}
+
+\begin{proof}
+Let $m=\lfloor |z|\sqrt n\rfloor$ and expose the single coefficient $\xi_{n+m}$ in \eqref{eq:derivative}.  Conditional on all other coefficients,
+\[
+ F_n(z)=a\xi_{n+m}+w,
+ \qquad |a|=a_{n,m}(|z|).
+\]
+Lemma~\ref{lem:saddle}(1) says $\log|a|\geq p_n(z)-L_n$.  The event in \eqref{eq:pointwise-tail} is therefore contained in $\{|a\xi_{n+m}+w|<|a|e^{-s}\}$.  Apply \eqref{eq:smallball} conditionally and integrate over the other coefficients.
+\end{proof}
+
+We need a circle version of this estimate.  The following elementary form of the event-dependent logarithmic argument is convenient.
+
+\begin{lemma}[Circle lower tail]\label{lem:circle-tail}
+Let $Y(\omega,\theta)\geq0$ be jointly measurable for $0\leq\theta\leq2\pi$, and suppose
+\[
+ \Pp\{Y(\cdot,\theta)>s\}\leq e^{-s/2}
+ \quad(s\geq0)
+\]
+uniformly in $\theta$.  If $\overline Y=(2\pi)^{-1}\int_0^{2\pi}Y(\cdot,\theta)\,d\theta$, then for $t\geq8$,
+\[
+ \Pp\{\overline Y\geq t\}\leq2e^{-t/8}.
+\]
+\end{lemma}
+
+\begin{proof}
+The tail hypothesis implies integrability.  If $E=\{\overline Y\geq t\}$ and $q=\Pp(E)$, Tonelli gives
+\[
+ tq\leq\frac1{2\pi}\int_0^{2\pi}\E\bigl(Y(\cdot,\theta)\1_E\bigr)\,d\theta.
+\]
+For any event of probability $q$, the layer-cake formula gives, uniformly in $\theta$,
+\[
+ \E\bigl(Y(\cdot,\theta)\1_E\bigr)
+ \leq\int_0^\infty\min\{q,e^{-s/2}\}\,ds
+ =2q\log\frac eq.
+\]
+If $q>0$, then $t\leq2\log(e/q)$, so $q\leq e^{1-t/2}\leq2e^{-t/8}$ for $t\geq8$.  The case $q=0$ is trivial.
+\end{proof}
+
+\section{Hole probabilities and extraction}
+
+For $c\in\C$ and $r>0$, define
+\[
+ \gamma(c,r)=\frac1{2\pi}\int_0^{2\pi}|c+re^{i\theta}|\,d\theta-|c|.
+\]
+Strict convexity of the Euclidean norm gives
+\begin{equation}\label{eq:gap}
+ \gamma(c,r)>0.
+\end{equation}
+Indeed, for every $\theta$ the triangle inequality gives
+$|c+re^{i\theta}|+|c-re^{i\theta}|\geq2|c|$.  The inequality is strict at some
+$\theta$: this is immediate if $c=0$, while for $c\neq0$ one may choose
+$re^{i\theta}$ perpendicular to $c$.  By continuity it is strict on an interval;
+integrating and shifting $\theta$ by $\pi$ proves \eqref{eq:gap}.
+
+Fix $c\neq0$ and $0<R<|c|$, and put $r=R/2$.  The circle $|z-c|=r$ lies in an annulus $\delta\leq|z|\leq M$ for some $\delta>0$ and $M<\infty$.  For all sufficiently large $n$, the hypotheses of Lemma~\ref{lem:pointwise} hold uniformly on this circle.  Define
+\[
+ D_{n,z}=\max\{p_n(z)-\log|F_n(z)|-L_n,0\},
+ \qquad
+ \overline D_n=\frac1{2\pi}\int_0^{2\pi}D_{n,c+re^{i\theta}}\,d\theta.
+\]
+The pointwise tail in Lemma~\ref{lem:pointwise} is stronger than the hypothesis of Lemma~\ref{lem:circle-tail}, so the latter applies to $\overline D_n$.  The logarithms are locally integrable on each circle because $F_n$ is analytic and not identically zero almost surely; alternatively, integrability follows directly from the uniform pointwise tail.  Joint measurability follows from normal convergence of the random series and measurable finite partial sums.
+
+Let $H_n(c,R)$ be the set of samples for which $F_n$ has no zero in $B(c,R)$.  On this set $F_n$ is zero-free on $\overline{B(c,r)}$, and Jensen's formula \cite[Chapter~III]{Conway} gives
+\begin{equation}\label{eq:jensen}
+ \frac1{2\pi}\int_0^{2\pi}\log|F_n(c+re^{i\theta})|\,d\theta
+ =\log|F_n(c)|.
+\end{equation}
+By Lemma~\ref{lem:saddle}(2),
+\[
+ \log|F_n(c)|\leq p_n(c)+C(c),
+ \qquad C(c)=\frac{|c|+|c|^2}{2}.
+\]
+Since $D_{n,z}\geq p_n(z)-\log|F_n(z)|-L_n$, equations \eqref{eq:gap} and \eqref{eq:jensen} imply on $H_n(c,R)$ that
+\begin{align*}
+ \overline D_n
+ &\geq \frac1{2\pi}\int_0^{2\pi}p_n(c+re^{i\theta})\,d\theta
+       -p_n(c)-C(c)-L_n\\
+ &=\gamma(c,r)\sqrt n-C(c)-2-\frac12\log n=:T_n.
+\end{align*}
+The measurable set $G_n=\{\overline D_n\geq T_n\}$ contains $H_n(c,R)$.  Now $T_n\to\infty$ and, more precisely, $T_n\geq\frac12\gamma(c,r)\sqrt n$ for all sufficiently large $n$.  Writing $\Pp^*$ for outer probability, Lemma~\ref{lem:circle-tail} therefore gives
+\begin{equation}\label{eq:hole}
+ \Pp^*\bigl(H_n(c,R)\bigr)\leq\Pp(G_n)\leq2e^{-T_n/8}
+ \leq2\exp\left(-\frac{\gamma(c,r)}{16}\sqrt n\right)
+\end{equation}
+for all sufficiently large $n$.  The series of the right-hand side converges; for example, $\log n=o(\sqrt n)$ gives an eventual comparison with $n^{-2}$.  Hence
+\begin{equation}\label{eq:summable-holes}
+ \sum_{n=0}^{\infty}\Pp^*\bigl(H_n(c,R)\bigr)<\infty.
+\end{equation}
+This formulation avoids a separate measurability argument for the zero-free sets.  The usual proof of the first Borel--Cantelli estimate \cite[Section~2.3]{Durrett} applies verbatim to outer probability, since
+$\Pp^*(\limsup_n H_n)\leq\inf_N\sum_{n\geq N}\Pp^*(H_n)=0$ whenever
+$\sum_n\Pp^*(H_n)<\infty$.
+
+Choose a countable family $\mathcal B$ of disks $B(c,R)$ with $c\in\mathbb Q+i\mathbb Q$, $R\in\mathbb Q_{>0}$, and $R<|c|$.  This is still an inner base for $\C$: every nonempty open set contains a nonzero point, then a nearby nonzero rational point and a sufficiently small rational disk around it.  For each $B\in\mathcal B$, \eqref{eq:summable-holes} and the first Borel--Cantelli lemma show that outside an outer-null set only finitely many $F_n$ are zero-free in $B$.  The countable union of these exceptional outer-null sets is outer-null.  Intersecting its complement with the probability-one event that every $\xi_k$ is nonzero gives a nonempty event on which all conclusions hold simultaneously.
+
+Select a sample in this event and denote its entire function by $f$.  It is nonzero and nonpolynomial.  If $U\subset\C$ is nonempty and open, choose $B\in\mathcal B$ with $B\subset U$.  All sufficiently high derivatives of $f$ have a zero in $B$, hence in $U$.  This proves Theorem~\ref{thm:main}; Lemma~\ref{lem:cofinite} supplies the equivalent subsequence statement.
+
+\medskip
+\noindent\textbf{Formal verification.}
+A machine-checked Lean 4 formalization of the main theorem and the supporting exact iterated-derivative formula, saddle estimates, small-ball and logarithmic-tail bounds, Jensen argument, summable hole probabilities, countable-base reduction, and deterministic extraction is available at
+\[
+ \href{https://github.com/erichou1/cofinite-derivative-zeros}
+ {\texttt{github.com/erichou1/cofinite-derivative-zeros}}.
+\]
+The expanded public theorem is
+\begin{center}
+\ttfamily
+CofiniteDerivatives.\\
+exists\_transcendental\_entire\_with\_\\
+explicit\_derivative\_zeros
+\end{center}
+The verified source revision is
+\href{https://github.com/erichou1/cofinite-derivative-zeros/tree/6f2b763e4c82c5c8662338b1cea5893d14264078}
+{\texttt{6f2b763e4c82}} (full SHA in the link target).
+The project is pinned to Lean~4.28.0 and Mathlib~v4.28.0 \cite{Mathlib}.  Running \texttt{lake build CofiniteDerivatives} and then \texttt{lake env lean Audit.lean} checks the build and prints the theorem's axiom dependencies; the project-owned sources contain no \texttt{sorry}, \texttt{admit}, or custom axiom.
+
+\section*{Acknowledgments}
+The author used GitHub Copilot and other AI language-model tools to assist with proof exploration, Lean code generation and debugging, manuscript drafting, and editorial review.  Every mathematical claim was subsequently checked against the compiled Lean development, and the final manuscript and formal source were independently subjected to automated and adversarial consistency checks.  The author remains responsible for the arguments and exposition.
+
+\begin{thebibliography}{9}
+
+\bibitem{Conway}
+J.~B. Conway,
+\emph{Functions of One Complex Variable I},
+2nd ed., Graduate Texts in Mathematics, vol.~11, Springer-Verlag, New York, 1978.
+
+\bibitem{Durrett}
+R. Durrett,
+\emph{Probability: Theory and Examples},
+5th ed., Cambridge Series in Statistical and Probabilistic Mathematics, Cambridge University Press, Cambridge, 2019.
+
+\bibitem{Kahane}
+J.-P. Kahane,
+\emph{Some Random Series of Functions},
+2nd ed., Cambridge Studies in Advanced Mathematics, vol.~5, Cambridge University Press, Cambridge, 1985.
+
+\bibitem{Mathlib}
+The Mathlib Community,
+\emph{Mathlib: the mathematical library of Lean 4},
+\url{https://github.com/leanprover-community/mathlib4}, accessed July 20, 2026.
+
+\end{thebibliography}
+
+\end{document}
