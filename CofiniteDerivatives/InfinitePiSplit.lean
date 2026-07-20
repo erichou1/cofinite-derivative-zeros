@@ -152,3 +152,5 @@ theorem infinitePi_affine_smallBall_of_law (j : ι) (ν : Measure ℂ) (hν : μ
   simpa only [hν] using hsmall w
 
 end SmallBall
+
+end CofiniteDerivatives

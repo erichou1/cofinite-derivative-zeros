@@ -135,3 +135,5 @@ theorem measure_event_le_two_mul_exp_neg_quarter_of_le_logMoment
         (2 * Real.exp (-u / 2)) / u ≤ 2 * Real.exp (-u / 2) :=
           div_le_self hnum_nonneg hu_one
         _ = 2 * Real.exp (-t / 4) := by rw [hexp_arg]
+
+end CofiniteDerivatives
