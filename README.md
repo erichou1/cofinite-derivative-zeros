@@ -1,6 +1,12 @@
 # Cofinite Zeros of High Derivatives
 
-This repository contains a Lean 4 formalization of the existence of a nonzero transcendental entire function whose sufficiently high derivatives have a zero in every prescribed nonempty open subset of the complex plane. The formalized witness also satisfies the explicit growth bound
+[![Lean verification](https://github.com/erichou1/cofinite-derivative-zeros/actions/workflows/lean.yml/badge.svg)](https://github.com/erichou1/cofinite-derivative-zeros/actions/workflows/lean.yml)
+
+Eric Hou, July 20, 2026.
+
+**[Read the paper](paper.pdf)** · **[Browse the Lean proof](CofiniteDerivatives/Main.lean)** · **[View the axiom audit](Audit.lean)**
+
+This repository contains the paper and complete Lean 4 formalization of the existence of a nonzero transcendental entire function whose sufficiently high derivatives have a zero in every prescribed nonempty open subset of the complex plane. The formalized witness also satisfies the explicit growth bound
 
 ```text
 ‖f z‖ ≤ sqrt(2) * exp(‖z‖^2).
@@ -31,23 +37,42 @@ as well as the displayed growth bound. The original theorem name without the gro
 CofiniteDerivatives.exists_transcendental_entire_with_explicit_derivative_zeros
 ```
 
-## Build
+## Verification status
 
-The project is pinned to Lean 4.28.0 and Mathlib v4.28.0.
+- Lean 4.28.0 and Mathlib v4.28.0 are pinned in this repository.
+- The complete library builds with `lake build CofiniteDerivatives`.
+- `Audit.lean` reports only `propext`, `Classical.choice`, and `Quot.sound`.
+- Project-owned Lean sources contain no `sorry`, `admit`, or custom `axiom` declarations.
+- [`paper.pdf`](paper.pdf) is the compiled five-page A4 manuscript generated from [`paper.tex`](paper.tex).
+
+## Reproduce the proof
+
+Install [elan](https://github.com/leanprover/elan), then run:
 
 ```sh
+git clone https://github.com/erichou1/cofinite-derivative-zeros.git
+cd cofinite-derivative-zeros
 lake update
 lake build CofiniteDerivatives
 lake env lean Audit.lean
 ```
 
-The last command prints the final theorem and its axiom dependencies. The expected dependencies are only Lean's standard foundations:
+The first build downloads the pinned Lean and Mathlib dependencies and may take several minutes. The last command prints the final theorems and their axiom dependencies.
 
-```text
-[propext, Classical.choice, Quot.sound]
+To rebuild the paper, install [Tectonic](https://tectonic-typesetting.github.io/) and run:
+
+```sh
+tectonic paper.tex
 ```
 
-The project-owned Lean sources contain no `sorry`, `admit`, or custom `axiom` declarations.
+## Repository map
+
+- [`CofiniteDerivatives/Main.lean`](CofiniteDerivatives/Main.lean): final existence theorems and summable hole bound.
+- [`CofiniteDerivatives/FockGrowth.lean`](CofiniteDerivatives/FockGrowth.lean): explicit quadratic exponential growth estimate.
+- [`CofiniteDerivatives/Derivatives.lean`](CofiniteDerivatives/Derivatives.lean): expanded quantifiers and fixed-disk finiteness consequence.
+- [`CofiniteDerivatives/`](CofiniteDerivatives/): analytic, probabilistic, topological, and extraction modules.
+- [`Audit.lean`](Audit.lean): printed theorem statements and kernel axiom reports.
+- [`paper.pdf`](paper.pdf) and [`paper.tex`](paper.tex): manuscript and source.
 
 ## Proof architecture
 
@@ -67,8 +92,14 @@ The growth-aware theorem in this repository is incompatible with that printed as
 
 The expanded article is R. P. Boas Jr. and A. R. Reddy, *Zeros of the successive derivatives of entire functions*, **J. Math. Anal. Appl.** 42 (1973), 466--473, DOI [10.1016/0022-247X(73)90153-4](https://doi.org/10.1016/0022-247X(73)90153-4). The proof here is independent and does not use either Boas--Reddy paper.
 
-The accompanying manuscript is in [`paper.tex`](paper.tex). It can be compiled with:
+## Citation
 
-```sh
-tectonic paper.tex
-```
+Please use the metadata in [`CITATION.cff`](CITATION.cff). A plain-text citation is:
+
+> Eric Hou, “Cofinite Zeros of High Derivatives,” 2026. Lean 4 formalization and manuscript, https://github.com/erichou1/cofinite-derivative-zeros.
+
+## Feedback
+
+Mathematical corrections, Lean issues, and reproducibility reports are welcome through [GitHub Issues](https://github.com/erichou1/cofinite-derivative-zeros/issues). See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the expected verification details.
+
+Copyright © 2026 Eric Hou. No license has been granted unless stated otherwise.

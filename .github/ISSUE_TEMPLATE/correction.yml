@@ -1,0 +1,35 @@
+name: Mathematical or formalization correction
+description: Report a possible issue in the manuscript, Lean proof, or their correspondence.
+title: "[Correction]: "
+labels: [correction]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Manuscript
+        - Lean formalization
+        - Manuscript and Lean formalization
+        - Build or reproducibility
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Precise location
+      description: Give a theorem, equation, declaration, file, or line link.
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Description
+      description: State the issue precisely and include a counterexample or corrected argument when applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification performed
+      description: List relevant Lean, Tectonic, or independent mathematical checks.
