@@ -1,4 +1,4 @@
-name: Lean verification
+name: Lean build
 
 on:
   push:

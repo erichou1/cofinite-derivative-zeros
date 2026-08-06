@@ -1,347 +1,779 @@
-\documentclass[a4paper]{amsart}
+\documentclass[plain]{baustms}
 
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb,mathtools}
-\usepackage[hidelinks]{hyperref}
+%% The class already loads amsmath, amssymb, amsthm, txfonts, geometry,
+%% enumerate and hyperref; no further packages are required.
 
 \newcommand{\C}{\mathbb C}
 \newcommand{\N}{\mathbb N}
+\newcommand{\Q}{\mathbb Q}
 \newcommand{\D}{\mathbb D}
 \newcommand{\Pp}{\mathbb P}
 \newcommand{\E}{\mathbb E}
-\newcommand{\Zf}{\mathcal Z}
-\newcommand{\1}{\mathbf 1}
-\newcommand{\dd}{\,d}
-\DeclareMathOperator{\dist}{dist}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\Real}{\operatorname{Re}}
 
+\theoremstyle{cupthm}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 
-\title{Cofinite Zeros of High Derivatives}
-\author[Eric Hou]{Eric Hou\\\rule{0pt}{1.1em}\normalfont July 20, 2026}
-\date{}
+\runningtitle{Cofinite zeros of high derivatives}
+\authorheadline{E. Hou}
+
+\title{Cofinite zeros of high derivatives}
+\author{Eric Hou}
+\address{Los Gatos, California, USA\email{eric.x.hou@gmail.com}}
 
 \begin{document}
 
 \begin{abstract}
-We construct a nonzero transcendental entire function such that every nonempty open subset of the complex plane contains a zero of every sufficiently high derivative; equivalently, the union of the zero sets along every infinite increasing sequence of derivative orders is dense.  The construction is probabilistic and uses a bounded-coefficient Fock series.  A saddle estimate, a one-coordinate small-ball bound, and Jensen's formula give summable outer probabilities for zero-free disks.  The resulting function satisfies the explicit growth bound $|f(z)|\leq\sqrt2\exp(|z|^2)$ and therefore also supplies a counterexample to a 1973 theorem of Boas and Reddy as printed.  A machine-checked Lean 4 formalization verifies the existence theorem, the growth bound, and their supporting lemmas.
+We construct a transcendental entire function $f$ such that every nonempty
+open subset of the complex plane contains a zero of $f^{(n)}$ for all
+sufficiently large~$n$; equivalently, for every strictly increasing sequence
+of derivative orders the corresponding zero sets have dense union. The
+construction is probabilistic. We take a Fock series whose coefficients are
+independent and uniformly distributed on the closed unit disk, and we combine
+a saddle-point estimate for the Taylor coefficients of the derivatives with a
+one-coordinate anti-concentration bound and the mean value property of
+$\log|f^{(n)}|$ on a zero-free disk. This makes the probability that a
+derivative is zero-free in a fixed disk summable in~$n$. Every sample of the
+series obeys the deterministic bound $|f(z)|\leq\sqrt2\exp(|z|^2)$, so the
+function produced has order at most two and finite type.
 \end{abstract}
+
+\classification[2020]{primary 30D20; secondary 30B20, 30C15, 60F15}
+\keywords{entire function, successive derivatives, zero sets,
+random analytic function, hole probability}
 
 \maketitle
 
-\section{Statement and reduction}
+\section{Introduction}
 
-For an entire function $f$ and a nonempty open set $U\subset\C$, put
-$A_U(f)=\{n\in\N:f^{(n)}\text{ has a zero in }U\}$.  We begin with the
-elementary quantifier reduction that will be used at the end.
+Erd\H{o}s asked whether there is a nonzero entire function $f$ such that, for
+every strictly increasing sequence $(n_k)_{k\geq0}$ of nonnegative integers,
+the union of the zero sets of $f^{(n_k)}$ is dense in the complex plane
+\cite[p.~72]{Erdos1982}. The question is recorded as Problem~906 on the
+Erd\H{o}s problems page \cite{Bloom906}. If polynomials are admitted the
+question is immediate, because every sufficiently high derivative of a
+polynomial vanishes identically; we therefore treat the transcendental form
+of the problem. Throughout, \emph{transcendental entire} means entire and not
+a polynomial, and $\N=\{0,1,2,\ldots\}$. For $c\in\C$ and $R>0$ we write
+$B(c,R)=\{z\in\C:|z-c|<R\}$.
+
+For a nonempty open set $U\subset\C$ and an entire function $f$, define
+\[
+ A_U(f)=\{n\in\N:f^{(n)}\text{ has a zero in }U\}.
+\]
+The following elementary reformulation isolates the quantifier that the
+problem requires.
 
 \begin{lemma}\label{lem:cofinite}
 For an entire function $f$, the following assertions are equivalent.
-\begin{enumerate}
-\item For every strictly increasing sequence $(n_k)_{k\geq 0}$ of nonnegative integers, the set
+\begin{enumerate}[\rm(1)]
+\item For every strictly increasing sequence $(n_k)_{k\geq0}$ in $\N$, the set
 \[
  \bigcup_{k\geq0}\{z\in\C:f^{(n_k)}(z)=0\}
 \]
 is dense in $\C$.
-\item For every nonempty open $U\subset\C$, the set $A_U(f)$ is cofinite in $\N$, meaning that its complement is finite.
+\item For every nonempty open set $U\subset\C$, the set $A_U(f)$ is cofinite
+in $\N$, that is, $\N\setminus A_U(f)$ is finite.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Assume (2), fix $U$, and let $(n_k)$ be strictly increasing.  Since $(n_k)$ is unbounded, some $n_k$ lies beyond the finite exceptional set $\N\setminus A_U(f)$; hence the displayed union meets $U$.  Conversely, if $\N\setminus A_U(f)$ is infinite, enumerate it increasingly as $(n_k)$.  Every zero set of $f^{(n_k)}$ then misses $U$, so their union is not dense.
+Assume (2). Fix a strictly increasing sequence $(n_k)$ and a nonempty open
+set $U$. Since $A_U(f)$ is cofinite there is an integer $N(U)$ such that
+$n\geq N(U)$ implies $n\in A_U(f)$. The sequence $(n_k)$ is unbounded, so
+$n_k\geq N(U)$ for some $k$, and then $f^{(n_k)}$ has a zero in $U$. The
+displayed union therefore meets every nonempty open set and is dense.
+
+Conversely, suppose that (2) fails. Then for some nonempty open set $U$ the
+set $\N\setminus A_U(f)$ is infinite; enumerate it increasingly as $(n_k)$.
+Each $f^{(n_k)}$ is zero-free in $U$, so the union of their zero sets misses
+$U$ and is not dense.
 \end{proof}
 
 \begin{theorem}\label{thm:main}
-There is a nonzero nonpolynomial entire function $f$ such that, for every nonempty open set $U\subset\C$, there exists $N(U)$ with
+There exists a transcendental entire function $f$ such that, for every
+nonempty open set $U\subset\C$, there is an integer $N(U)$ for which
 \[
- n\geq N(U)\quad\Longrightarrow\quad
- \text{$f^{(n)}$ has a zero in $U$}.
+ n\geq N(U)\quad\Longrightarrow\quad f^{(n)}\text{ has a zero in }U.
 \]
 The same function can be chosen to satisfy
 \begin{equation}\label{eq:growth}
- |f(z)|\leq \sqrt2\exp(|z|^2)\qquad(z\in\C).
+ |f(z)|\leq\sqrt2\exp(|z|^2),\qquad z\in\C.
 \end{equation}
-Consequently, the zero sets of the derivatives indexed by every strictly increasing sequence have dense union.
+Consequently, the zero sets indexed by every strictly increasing sequence of
+derivative orders have dense union.
 \end{theorem}
 
-Here and below, ``transcendental entire'' means entire and nonpolynomial.  This answers the intended transcendental form of Erd\H{o}s Problem~\#906 \cite{Bloom906}.  The final assertion follows from Lemma~\ref{lem:cofinite}; the rest of the paper proves the cofinite assertion and the growth bound.
+The bound \eqref{eq:growth} is recorded because it is what the construction
+produces, and no more is claimed about it here: it says that the function
+below has order at most two and finite type in the usual terminology of
+entire-function theory.
 
-\section{The random Fock series}
+Two classical constructions come close to the statement of
+Theorem~\ref{thm:main} without reaching it. MacLane \cite{MacLane1952} built
+an entire function whose sequence of successive derivatives is dense, in the
+topology of locally uniform convergence, in the space of all entire
+functions. Barth and Schneider \cite{BarthSchneider1972} showed that, for any
+sequence $(S_k)_{k\geq0}$ of discrete subsets of $\C$, one can choose
+derivative orders $n_k$ and a transcendental entire function whose
+$n_k$-th derivative vanishes on $S_k$. Both results yield density statements
+near the one asked for, in that they force a union of derivative zero sets to
+be dense; neither yields assertion~(2) of Lemma~\ref{lem:cofinite}. MacLane's
+theorem controls the derivatives only through approximation in the locally
+uniform topology, which does not preclude an infinite set of derivative
+orders whose zero sets all miss one fixed disk. In the Barth--Schneider
+theorem the orders $n_k$ are produced by the construction rather than
+prescribed in advance, so the conclusion concerns one increasing sequence and
+not every one. By Lemma~\ref{lem:cofinite} the problem is exactly the passage
+from infinitely many admissible derivative orders to cofinitely many, and it
+is that passage which the construction below supplies.
 
-Let $\xi_0,\xi_1,\ldots$ be independent random variables, each uniformly distributed on the closed unit disk $\overline\D$.  Thus normalized planar area is their common law.  This is a bounded random analytic series in the sense of the classical theory; see, for example, \cite{Kahane}.  Define
+At the time of access on 5 August 2026, the online record still labelled the
+problem \textsc{open} and displayed one claimed proof. It also cautions that
+this label records its owner's current belief and may miss relevant literature
+\cite{Bloom906}. Thus the present article is a proposed resolution, and the
+status of the question should be assessed from the proof rather than from an
+online label.
+
+The method is probabilistic and belongs to the theory of random analytic
+functions; for the general theory of random series of functions we refer to
+Kahane \cite{Kahane}. The quantity estimated in Section~\ref{sec:holes}, the
+probability that a random analytic function has no zero in a fixed disk, is a
+hole probability.
+
+The proof is organised as follows. Section~\ref{sec:fock} introduces a random
+Fock series whose coefficients are bounded by one, so that the growth bound
+\eqref{eq:growth} holds for every sample, and establishes the two
+deterministic estimates behind the argument: a saddle-point lower bound
+identifying a single Taylor coefficient of $f^{(n)}$ that dominates the
+relevant scale on a given circle, and a matching upper bound for the whole
+series. Anti-concentration in that one coefficient converts the lower bound
+into a pointwise tail estimate for the logarithmic deficit of $f^{(n)}$,
+which is then averaged over a circle. In Section~\ref{sec:holes},
+zero-freeness of $f^{(n)}$ on a disk forces, through the mean value property
+of $\log|f^{(n)}|$, a large averaged deficit on the boundary circle, an event
+of small probability. The resulting hole probabilities are summable in $n$;
+the first Borel--Cantelli lemma \cite[Section~2.3]{Durrett} applied along a
+countable base of disks then produces a single sample with the required
+property.
+
+\section{A bounded random Fock series}\label{sec:fock}
+
+Let $\overline\D$ be the closed unit disk and let $m_\D$ be normalised planar
+Lebesgue measure on $\overline\D$. Put
+\[
+ \Omega=\overline\D^{\,\N},\qquad
+ \mathcal F=\mathcal B(\overline\D)^{\otimes\N},\qquad
+ \Pp=m_\D^{\otimes\N},
+\]
+and equip $\Omega$ with the product topology. A countable product of compact
+metric spaces is compact and metrizable, and $\mathcal F$ is the Borel
+$\sigma$-algebra of $\Omega$. For $\omega=(\omega_k)_{k\geq0}\in\Omega$ set
+$\xi_k(\omega)=\omega_k$. The coordinate variables $\xi_0,\xi_1,\ldots$ are
+then independent and uniformly distributed on $\overline\D$. Define
 \begin{equation}\label{eq:fock}
  f(z)=\sum_{k=0}^{\infty}\xi_k\frac{z^k}{\sqrt{k!}}.
 \end{equation}
-Since $|\xi_k|\leq1$, the series converges normally on every compact subset of $\C$, for every sample.  It therefore defines an entire function and may be differentiated termwise.  For $n\geq0$ write $F_n=f^{(n)}$; then
+The bound $|\xi_k|\leq1$ gives normal convergence on compact subsets of $\C$,
+uniformly in $\omega$. Hence every sample defines an entire function, term by
+term differentiation is legitimate, and for $n\geq0$,
 \begin{equation}\label{eq:derivative}
- F_n(z)=\sum_{m=0}^{\infty}\xi_{n+m}
-       \frac{\sqrt{(n+m)!}}{m!}z^m.
+ F_n(z):=f^{(n)}(z)
+ =\sum_{m=0}^{\infty}\xi_{n+m}\frac{\sqrt{(n+m)!}}{m!}\,z^m.
 \end{equation}
-The common coefficient law has no atoms, so almost surely $\xi_k\neq0$ for every $k$.  On that event all Taylor coefficients in \eqref{eq:fock} are nonzero, and hence $f$ is not a polynomial.
+The partial sums of \eqref{eq:derivative} are continuous on
+$\Omega\times\C$ and converge uniformly on $\Omega\times\{|z|\leq M\}$ for
+every $M$, so $(\omega,z)\mapsto F_n(\omega,z)$ is jointly continuous; in
+particular $\omega\mapsto F_n(\omega,z)$ is $\mathcal F$-measurable for each
+fixed $z$. The law $m_\D$ has no atoms, so $\Pp\{\xi_k=0\}=0$ for every $k$,
+and therefore
+\begin{equation}\label{eq:nonzero}
+ \Omega_0=\{\omega\in\Omega:\xi_k(\omega)\neq0\text{ for every }k\geq0\}
+\end{equation}
+has $\Pp(\Omega_0)=1$. On $\Omega_0$ all Taylor coefficients in
+\eqref{eq:fock} are nonzero, so $f$ is not a polynomial.
 
-For later comparison with the literature, we record the growth of every sample.  Applying Cauchy--Schwarz with weights $2^{k/2}$ gives
+The bounded coefficients also give the growth bound. By Cauchy--Schwarz with
+weights $2^{k/2}$,
 \begin{align*}
  |f(z)|
- &\leq \sum_{k\geq0}\frac{|z|^k}{\sqrt{k!}}\\
- &\leq
- \left(\sum_{k\geq0}\frac{2^k|z|^{2k}}{k!}\right)^{1/2}
- \left(\sum_{k\geq0}2^{-k}\right)^{1/2}
- =\sqrt2\exp(|z|^2).
+ &\leq\sum_{k\geq0}\frac{|z|^k}{\sqrt{k!}}\\
+ &\leq\left(\sum_{k\geq0}\frac{2^k|z|^{2k}}{k!}\right)^{1/2}
+      \left(\sum_{k\geq0}2^{-k}\right)^{1/2}
+  =\sqrt2\exp(|z|^2).
 \end{align*}
-Thus \eqref{eq:growth} holds deterministically.  In particular, the resulting function has order at most $2$ and finite type in the usual terminology of entire-function theory.
+Thus \eqref{eq:growth} holds for every $\omega\in\Omega$, and every sample has
+order at most two and finite type.
 
-We next establish the deterministic estimates behind the zero argument.  For $r\geq0$ set
-$a_{n,m}(r)=\sqrt{(n+m)!}\,r^m/m!$ and
-$S_n(r)=\sum_{m=0}^{\infty}a_{n,m}(r)$, and define the potential and loss
+For $r\geq0$ write
+\[
+ a_{n,m}(r)=\frac{\sqrt{(n+m)!}}{m!}\,r^m,
+ \qquad
+ S_n(r)=\sum_{m=0}^{\infty}a_{n,m}(r),
+\]
+and set
 \begin{equation}\label{eq:potential}
- p_n(z)=\frac12\log(n!)+|z|\sqrt n,
- \qquad L_n=2+\frac12\log n.
+ p_n(z)=\tfrac12\log(n!)+|z|\sqrt n,
+ \qquad
+ L_n=2+\log(n+1).
 \end{equation}
-The occurrence of $\log n$ below is always under hypotheses implying $n\geq1$.
+We use the extended-real convention $\log0=-\infty$. Every occurrence of
+$L_n$ below is under hypotheses that force $n\geq1$.
+
+The saddle-point estimate needs an upper bound for $\log(m!)$. Rather than
+import a Stirling inequality we prove the following weaker bound, whose loss
+relative to Stirling's estimate is one logarithm; only the property
+$L_n=o(\sqrt n)$ is used, so the loss is harmless.
+
+\begin{lemma}[Elementary factorial bound]\label{lem:factorial}
+For every integer $m\geq1$,
+\[
+ \log(m!)\leq m\log m-m+\log(m+1)+1.
+\]
+\end{lemma}
+
+\begin{proof}
+The function $\log$ is nondecreasing on $[1,\infty)$, so
+$\log j\leq\int_j^{j+1}\log t\,dt$ for every integer $j\geq1$. Summing over
+$1\leq j\leq m$ and evaluating the integral,
+\[
+ \log(m!)=\sum_{j=1}^{m}\log j
+ \leq\int_1^{m+1}\log t\,dt
+ =\bigl[t\log t-t\bigr]_1^{m+1}
+ =(m+1)\log(m+1)-m.
+\]
+Furthermore $(m+1)\log(m+1)=m\log(m+1)+\log(m+1)$, and since
+$\log(1+u)\leq u$ for $u\geq0$,
+\[
+ m\log(m+1)=m\log m+m\log\Bigl(1+\frac1m\Bigr)\leq m\log m+1.
+\]
+Combining the two displays gives the assertion.
+\end{proof}
 
 \begin{lemma}[Saddle estimates]\label{lem:saddle}
 Let $n\geq1$.
-\begin{enumerate}
-\item If $r\geq0$, $1\leq r\sqrt n$, and $r\leq\sqrt n$, then for $m=\lfloor r\sqrt n\rfloor$,
+\begin{enumerate}[\rm(1)]
+\item If $r\geq0$, $1\leq r\sqrt n$ and $r\leq\sqrt n$, then, for
+$m=\lfloor r\sqrt n\rfloor$,
 \[
- \log a_{n,m}(r)\geq \frac12\log(n!)+r\sqrt n-2-\frac12\log n.
+ \log a_{n,m}(r)\geq\tfrac12\log(n!)+r\sqrt n-2-\log(n+1);
 \]
+by \eqref{eq:potential} the right-hand side equals $p_n(z)-L_n$ for every
+$z$ with $|z|=r$.
 \item For every $r\geq0$,
 \[
- \log S_n(r)\leq \frac12\log(n!)+r\sqrt n+\frac{r+r^2}{2}.
+ \log S_n(r)\leq\tfrac12\log(n!)+r\sqrt n+\frac{r+r^2}{2}.
 \]
-Consequently, if $|\xi_k|\leq1$ and $|z|\leq R$, then
+Consequently, if $|z|\leq R$ then
 \begin{equation}\label{eq:upper}
- \log|F_n(z)|-p_n(z)\leq \frac{R+R^2}{2},
+ \log|F_n(z)|-p_n(z)\leq\frac{R+R^2}{2}
 \end{equation}
-with the inequality interpreted trivially if $F_n(z)=0$.
+for every $\omega\in\Omega$, with the inequality read trivially when
+$F_n(z)=0$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
 Factor $a_{n,m}(r)=\sqrt{n!}\,b_{n,m}(r)$, where
 \[
- b_{n,m}(r)=\frac{\sqrt{(n+1)(n+2)\cdots(n+m)}}{m!}r^m.
+ b_{n,m}(r)=\frac{\sqrt{(n+1)(n+2)\cdots(n+m)}}{m!}\,r^m,
 \]
-Writing $x=r\sqrt n$, we have $b_{n,m}(r)\geq x^m/m!$.  For $m=\lfloor x\rfloor$, the assumptions give $1\leq m\leq x\leq n$.  The elementary Stirling bound
-\[
- \log(m!)\leq m\log m-m+\frac12\log m+1
-\]
-then yields, in one line,
+which is legitimate because $(n+m)!=n!\,(n+1)(n+2)\cdots(n+m)$.
+
+For (1) put $x=r\sqrt n$. Each of the $m$ factors under the square root is at
+least $n$, so $b_{n,m}(r)\geq n^{m/2}r^m/m!=x^m/m!$. For $m=\lfloor x\rfloor$
+the hypotheses give $1\leq m\leq x\leq n$, since $x\geq1$ and
+$x=r\sqrt n\leq\sqrt n\sqrt n=n$. By Lemma~\ref{lem:factorial},
 \[
  \log\frac{x^m}{m!}
- \geq m\log\frac{x}{m}+m-\frac12\log m-1
- \geq x-2-\frac12\log n,
+ \geq m\log x-m\log m+m-\log(m+1)-1
+ =m\log\frac xm+m-\log(m+1)-1.
 \]
-which proves (1).
-
-For (2), use
+Here $m\log(x/m)\geq0$ because $m\leq x$; also $m>x-1$ and
+$\log(m+1)\leq\log(n+1)$ because $m\leq n$. Hence
 \[
- b_{n,m}(r)=\sqrt{\frac{\binom{n+m}{n}}{m!}}\,r^m.
+ \log\frac{x^m}{m!}\geq(x-1)-\log(n+1)-1=x-2-\log(n+1),
 \]
-When $r>0$, put $t=r/(r+\sqrt n)\in(0,1)$.  Cauchy--Schwarz and the negative-binomial and exponential series give
+and adding $\tfrac12\log(n!)$ to both sides gives (1); the identification of
+the right-hand side with $p_n(z)-L_n$ is the definition
+\eqref{eq:potential}.
+
+For (2), note that
+\[
+ b_{n,m}(r)=\sqrt{\frac{\binom{n+m}{n}}{m!}}\,r^m .
+\]
+If $r>0$, put $t=r/(r+\sqrt n)\in(0,1)$, so that
+$\binom{n+m}{n}r^{2m}/m!=\bigl(\binom{n+m}{n}t^m\bigr)\bigl((r^2/t)^m/m!\bigr)$.
+Cauchy--Schwarz, the binomial series
+$\sum_{m\geq0}\binom{n+m}{n}t^m=(1-t)^{-(n+1)}$ and the exponential series
+give
 \begin{align*}
  \sum_{m\geq0}b_{n,m}(r)
- &\leq
- \left(\sum_{m\geq0}\binom{n+m}{n}t^m\right)^{1/2}
- \left(\sum_{m\geq0}\frac{(r^2/t)^m}{m!}\right)^{1/2}\\
+ &\leq\left(\sum_{m\geq0}\binom{n+m}{n}t^m\right)^{1/2}
+      \left(\sum_{m\geq0}\frac{(r^2/t)^m}{m!}\right)^{1/2}\\
  &=(1-t)^{-(n+1)/2}\exp\left(\frac{r^2}{2t}\right).
 \end{align*}
-Since $\log(1+u)\leq u$ for $u\geq0$ and $\sqrt n\geq1$,
-\[
- \frac{n+1}{2}\log\left(1+\frac r{\sqrt n}\right)
- +\frac{r(r+\sqrt n)}2
- \leq r\sqrt n+\frac{r+r^2}{2}.
-\]
-The case $r=0$ is immediate.  Finally, \eqref{eq:derivative} and the triangle inequality give $|F_n(z)|\leq S_n(|z|)$, proving \eqref{eq:upper}.
+Put $u=r/\sqrt n$. Since $\log(1+u)\leq u$ for $u\geq0$ and
+$\sqrt n\geq1$,
+\begin{align*}
+ \frac{n+1}{2}\log(1+u)+\frac{r(r+\sqrt n)}{2}
+ &\leq\frac{(n+1)r}{2\sqrt n}+\frac{r^2+r\sqrt n}{2}\\
+ &=r\sqrt n+\frac{r}{2\sqrt n}+\frac{r^2}{2}\\
+ &\leq r\sqrt n+\frac{r+r^2}{2}.
+\end{align*}
+Adding $\tfrac12\log(n!)$ gives (2) for $r>0$; the case $r=0$ is immediate
+because $S_n(0)=\sqrt{n!}$. Finally $|\xi_{n+m}|\leq1$, so
+\eqref{eq:derivative} and the triangle inequality give
+$|F_n(z)|\leq S_n(|z|)$. Applying the bound just proved with $r=|z|$, and
+using that $r\mapsto(r+r^2)/2$ is nondecreasing, gives \eqref{eq:upper}
+whenever $|z|\leq R$.
 \end{proof}
 
-The second ingredient is anti-concentration.  Normalized area on $\overline\D$ satisfies, for $a\neq0$, $w\in\C$, and $\varepsilon\geq0$,
+The second ingredient is anti-concentration. If $\xi$ is uniform on
+$\overline\D$ then, for $a\neq0$, $w\in\C$ and $\varepsilon\geq0$,
 \begin{equation}\label{eq:smallball}
- \Pp\{|a\xi+w|<\varepsilon\}
- \leq \left(\frac{\varepsilon}{|a|}\right)^2.
+ \Pp\{|a\xi+w|<\varepsilon\}\leq\left(\frac{\varepsilon}{|a|}\right)^2,
 \end{equation}
-Indeed, the preimage in $\overline\D$ is contained in a disk of radius $\varepsilon/|a|$, and the factor $\pi$ cancels under normalization.
+because the set $\{\zeta:|a\zeta+w|<\varepsilon\}$ is the disk of centre
+$-w/a$ and radius $\varepsilon/|a|$, whose normalised area is at most
+$(\varepsilon/|a|)^2$.
 
 \begin{lemma}[Pointwise logarithmic tail]\label{lem:pointwise}
-Suppose $1\leq |z|\sqrt n$ and $|z|\leq\sqrt n$.  For $s\geq0$,
+Let $n\geq1$ and let $z\in\C$ satisfy $1\leq|z|\sqrt n$ and $|z|\leq\sqrt n$.
+Then, for every $s\geq0$,
 \begin{equation}\label{eq:pointwise-tail}
- \Pp\left\{p_n(z)-\log|F_n(z)|>s+L_n\right\}\leq e^{-2s}.
+ \Pp\bigl\{p_n(z)-\log|F_n(z)|>s+L_n\bigr\}\leq e^{-2s}.
 \end{equation}
-At a zero we assign the representative value $\log0=0$.  This agrees with the Lean development and changes neither the pointwise probability, since the one-point law is nonatomic, nor any circle integral, since the zeros of a nonzero analytic function are isolated.
 \end{lemma}
 
 \begin{proof}
-Let $m=\lfloor |z|\sqrt n\rfloor$ and expose the single coefficient $\xi_{n+m}$ in \eqref{eq:derivative}.  Conditional on all other coefficients,
+Put $m=\lfloor|z|\sqrt n\rfloor$ and $k=n+m$, and split \eqref{eq:derivative}
+by isolating the coefficient $\xi_k$:
 \[
- F_n(z)=a\xi_{n+m}+w,
- \qquad |a|=a_{n,m}(|z|).
+ F_n(\omega,z)=a\,\xi_k(\omega)+w(\omega),
 \]
-Lemma~\ref{lem:saddle}(1) says $\log|a|\geq p_n(z)-L_n$.  The event in \eqref{eq:pointwise-tail} is therefore contained in $\{|a\xi_{n+m}+w|<|a|e^{-s}\}$.  Apply \eqref{eq:smallball} conditionally and integrate over the other coefficients.
+where
+\[
+ a=\frac{\sqrt{(n+m)!}}{m!}\,z^m
+\]
+is deterministic and
+\[
+ w(\omega)=\sum_{j\neq m}\xi_{n+j}(\omega)
+ \frac{\sqrt{(n+j)!}}{j!}\,z^j
+\]
+is the remainder.
+Three properties of $w$ are used. First, the series defining $w$ converges
+absolutely for every $\omega$, since $|\xi_{n+j}|\leq1$ and
+$\sum_{j\geq0}a_{n,j}(|z|)=S_n(|z|)<\infty$ by
+Lemma~\ref{lem:saddle}(2); so $w$ is finite everywhere, not merely almost
+surely. Second, $w$ is a measurable function of $\omega$, being a uniform
+limit of continuous functions on $\Omega$. Third, and decisively, $w$ does
+not depend on the coordinate $\omega_k$: it is measurable with respect to
+$\mathcal G=\sigma(\xi_j:j\neq k)$, since the index $j=m$ is omitted from the
+sum. Note also that $|z|\geq1/\sqrt n>0$, so $a\neq0$ and
+$|a|=a_{n,m}(|z|)$.
+
+Since $|z|=:r$ satisfies the hypotheses of Lemma~\ref{lem:saddle}(1), that
+lemma gives $\log|a|\geq p_n(z)-L_n$. Hence, for $s\geq0$,
+\[
+ \bigl\{p_n(z)-\log|F_n(z)|>s+L_n\bigr\}
+ =\bigl\{|F_n(z)|<e^{\,p_n(z)-L_n-s}\bigr\}
+ \subseteq\bigl\{|a\xi_k+w|<|a|e^{-s}\bigr\}.
+\]
+Now write $\Omega=\overline\D\times\Omega'$, where the first factor carries
+the coordinate $\omega_k$ and $\Omega'=\overline\D^{\,\N\setminus\{k\}}$
+carries the remaining coordinates, and correspondingly
+$\Pp=m_\D\otimes\Pp'$. Because $w$ is $\mathcal G$-measurable it is a
+function of $\omega'\in\Omega'$ alone, so Tonelli's theorem gives
+\[
+ \Pp\bigl\{|a\xi_k+w|<|a|e^{-s}\bigr\}
+ =\int_{\Omega'}m_\D\bigl\{\zeta\in\overline\D:
+   |a\zeta+w(\omega')|<|a|e^{-s}\bigr\}\,d\Pp'(\omega').
+\]
+For each fixed $\omega'$ the inner measure is at most $(e^{-s})^2=e^{-2s}$ by
+\eqref{eq:smallball}, with $\varepsilon=|a|e^{-s}$; the bound is uniform in
+$\omega'$, so integrating over $\Omega'$ preserves it. This proves
+\eqref{eq:pointwise-tail}.
 \end{proof}
 
-We need a circle version of this estimate.  The following elementary form of the event-dependent logarithmic argument is convenient.
+The pointwise estimate is used through the following circle-average bound.
 
 \begin{lemma}[Circle lower tail]\label{lem:circle-tail}
-Let $Y(\omega,\theta)\geq0$ be jointly measurable for $0\leq\theta\leq2\pi$, and suppose
+Let $Y\geq0$ be jointly measurable on $\Omega\times[0,2\pi]$ and suppose that
 \[
- \Pp\{Y(\cdot,\theta)>s\}\leq e^{-s/2}
- \quad(s\geq0)
+ \Pp\{Y(\cdot,\theta)>s\}\leq e^{-s/2},\qquad s\geq0,
 \]
-uniformly in $\theta$.  If $\overline Y=(2\pi)^{-1}\int_0^{2\pi}Y(\cdot,\theta)\,d\theta$, then for $t\geq8$,
+uniformly in $\theta$. Put
+$\overline Y=(2\pi)^{-1}\int_0^{2\pi}Y(\cdot,\theta)\,d\theta$. Then
 \[
- \Pp\{\overline Y\geq t\}\leq2e^{-t/8}.
+ \Pp\{\overline Y\geq t\}\leq2e^{-t/8},\qquad t\geq8.
 \]
 \end{lemma}
 
 \begin{proof}
-The tail hypothesis implies integrability.  If $E=\{\overline Y\geq t\}$ and $q=\Pp(E)$, Tonelli gives
+The tail hypothesis and the layer-cake formula give
+$\E Y(\cdot,\theta)=\int_0^\infty\Pp\{Y(\cdot,\theta)>s\}\,ds\leq2$ for every
+$\theta$, so $\E\overline Y\leq2$ by Tonelli's theorem and $\overline Y$ is
+integrable. Put $E=\{\overline Y\geq t\}$ and $q=\Pp(E)$. Then
+$t\ind_E\leq\overline Y\ind_E$, and Tonelli's theorem gives
 \[
- tq\leq\frac1{2\pi}\int_0^{2\pi}\E\bigl(Y(\cdot,\theta)\1_E\bigr)\,d\theta.
+ tq\leq\E\bigl(\overline Y\ind_E\bigr)
+ =\frac1{2\pi}\int_0^{2\pi}\E\bigl(Y(\cdot,\theta)\ind_E\bigr)\,d\theta.
 \]
-For any event of probability $q$, the layer-cake formula gives, uniformly in $\theta$,
+For every $\theta$ the layer-cake formula and
+$\Pp(\{Y(\cdot,\theta)>s\}\cap E)\leq\min\{q,e^{-s/2}\}$ yield
 \[
- \E\bigl(Y(\cdot,\theta)\1_E\bigr)
+ \E\bigl(Y(\cdot,\theta)\ind_E\bigr)
  \leq\int_0^\infty\min\{q,e^{-s/2}\}\,ds
- =2q\log\frac eq.
+ =\int_0^{2\log(1/q)}q\,ds+\int_{2\log(1/q)}^\infty e^{-s/2}\,ds
+ =2q\log\frac eq,
 \]
-If $q>0$, then $t\leq2\log(e/q)$, so $q\leq e^{1-t/2}\leq2e^{-t/8}$ for $t\geq8$.  The case $q=0$ is trivial.
+where the computation assumes $0<q\leq1$. If $q>0$ we may cancel $q$ and
+obtain $t\leq2\log(e/q)=2+2\log(1/q)$, so $q\leq e^{1-t/2}$. For $t\geq8$ we
+have $e^{1-t/2}=e^{1-3t/8}e^{-t/8}\leq e^{-2}e^{-t/8}\leq2e^{-t/8}$. The case
+$q=0$ is immediate.
 \end{proof}
 
-\section{Hole probabilities and extraction}
+\section{Zero-free disks and proof of the theorem}\label{sec:holes}
 
-For $c\in\C$ and $r>0$, define
+We first isolate the geometric gain that drives the estimate. For $c\in\C$
+and $r>0$ set
 \[
  \gamma(c,r)=\frac1{2\pi}\int_0^{2\pi}|c+re^{i\theta}|\,d\theta-|c|.
 \]
-Strict convexity of the Euclidean norm gives
-\begin{equation}\label{eq:gap}
- \gamma(c,r)>0.
-\end{equation}
-Indeed, for every $\theta$ the triangle inequality gives
-$|c+re^{i\theta}|+|c-re^{i\theta}|\geq2|c|$.  The inequality is strict at some
-$\theta$: this is immediate if $c=0$, while for $c\neq0$ one may choose
-$re^{i\theta}$ perpendicular to $c$.  By continuity it is strict on an interval;
-integrating and shifting $\theta$ by $\pi$ proves \eqref{eq:gap}.
 
-Fix $c\neq0$ and $0<R<|c|$, and put $r=R/2$.  The circle $|z-c|=r$ lies in an annulus $\delta\leq|z|\leq M$ for some $\delta>0$ and $M<\infty$.  For all sufficiently large $n$, the hypotheses of Lemma~\ref{lem:pointwise} hold uniformly on this circle.  Define
+\begin{lemma}\label{lem:gap}
+For all $c\in\C$ and $r>0$ we have $\gamma(c,r)>0$.
+\end{lemma}
+
+\begin{proof}
+Define
 \[
- D_{n,z}=\max\{p_n(z)-\log|F_n(z)|-L_n,0\},
- \qquad
- \overline D_n=\frac1{2\pi}\int_0^{2\pi}D_{n,c+re^{i\theta}}\,d\theta.
+ \varphi(\theta)=|c+re^{i\theta}|+|c-re^{i\theta}|-2|c|,
+ \qquad\theta\in[0,2\pi].
 \]
-The pointwise tail in Lemma~\ref{lem:pointwise} is stronger than the hypothesis of Lemma~\ref{lem:circle-tail}, so the latter applies to $\overline D_n$.  The logarithms are locally integrable on each circle because $F_n$ is analytic and not identically zero almost surely; alternatively, integrability follows directly from the uniform pointwise tail.  Joint measurability follows from normal convergence of the random series and measurable finite partial sums.
+Since $(c+re^{i\theta})+(c-re^{i\theta})=2c$, the triangle inequality gives
+$\varphi\geq0$ everywhere, and $\varphi$ is continuous because
+$\theta\mapsto|c\pm re^{i\theta}|$ is.
 
-Let $H_n(c,R)$ be the set of samples for which $F_n$ has no zero in $B(c,R)$.  On this set $F_n$ is zero-free on $\overline{B(c,r)}$, and Jensen's formula \cite[Chapter~III]{Conway} gives
+We claim that $\varphi(\theta_0)>0$ for some $\theta_0$. If $c=0$ then
+$\varphi\equiv2r>0$. If $c\neq0$, choose $\theta_0$ with
+$re^{i\theta_0}=irc/|c|$, so that $re^{i\theta_0}$ is perpendicular to $c$;
+then $|c\pm re^{i\theta_0}|=\sqrt{|c|^2+r^2}$ by the Pythagorean identity, so
+\[
+ \varphi(\theta_0)=2\sqrt{|c|^2+r^2}-2|c|>0 .
+\]
+This is the point at which continuity is needed: perpendicularity produces
+strict inequality only at the two isolated angles $\theta_0$ and
+$\theta_0+\pi$, and a set of measure zero contributes nothing to an integral.
+Since $\varphi$ is continuous and $\varphi(\theta_0)>0$, there is a
+$\delta>0$ such that
+\begin{equation}\label{eq:phi-interval}
+ \varphi(\theta)\geq\tfrac12\varphi(\theta_0)>0
+ \qquad\text{for all }\theta\in I:=[\theta_0-\delta,\theta_0+\delta],
+\end{equation}
+so strictness holds on an interval of positive length, not merely at isolated
+angles.
+
+The substitution $\theta\mapsto\theta+\pi$ and $2\pi$-periodicity give
+$\int_0^{2\pi}|c-re^{i\theta}|\,d\theta=\int_0^{2\pi}|c+re^{i\theta}|\,d\theta$,
+whence
+\[
+ \frac1{2\pi}\int_0^{2\pi}\varphi(\theta)\,d\theta
+ =2\left(\frac1{2\pi}\int_0^{2\pi}|c+re^{i\theta}|\,d\theta-|c|\right)
+ =2\gamma(c,r).
+\]
+Since $\varphi\geq0$ everywhere, \eqref{eq:phi-interval} gives
+\[
+ 2\gamma(c,r)\geq\frac1{2\pi}\int_I\varphi(\theta)\,d\theta
+ \geq\frac{2\delta}{2\pi}\cdot\tfrac12\varphi(\theta_0)>0,
+\]
+which is the assertion. (Here $I$ is understood modulo $2\pi$; if it is not
+contained in $[0,2\pi]$, replace it by its intersection with a period
+interval containing $\theta_0$ in its interior.)
+\end{proof}
+
+Next we record the mean value step in the exact form needed, with the strict
+radius margin made explicit.
+
+\begin{lemma}[Mean value property on a zero-free disk]\label{lem:mvp}
+Let $c\in\C$ and $\rho>0$, let $G$ be holomorphic and zero-free on
+$B(c,\rho)$, and let $0<r<\rho$. Then
+\[
+ \frac1{2\pi}\int_0^{2\pi}\log|G(c+re^{i\theta})|\,d\theta=\log|G(c)|.
+\]
+\end{lemma}
+
+\begin{proof}
+The disk $B(c,\rho)$ is convex, and $G'/G$ is holomorphic on it because $G$ is
+zero-free there. Every holomorphic function on a convex domain has a
+holomorphic primitive \cite[Chapter~IV]{Conway}, so there is a holomorphic
+$h$ on $B(c,\rho)$ with $h'=G'/G$. Then
+$(Ge^{-h})'=e^{-h}(G'-Gh')=0$ on the connected set $B(c,\rho)$, so
+$Ge^{-h}\equiv\kappa$ for a constant $\kappa$, and $\kappa\neq0$ because $G$
+is zero-free. Choose $\lambda\in\C$ with $e^{\lambda}=\kappa$ and set
+$g=h+\lambda$; then $e^{g}=G$ on $B(c,\rho)$, and hence
+$\Real g=\log|G|$ there.
+
+The strict inequality $r<\rho$ gives $\overline{B(c,r)}\subset B(c,\rho)$, so
+the circle $|z-c|=r$ and its interior lie in the domain of $g$ and Cauchy's
+integral formula \cite[Chapter~IV]{Conway} applies:
+\[
+ g(c)=\frac1{2\pi i}\int_{|z-c|=r}\frac{g(z)}{z-c}\,dz
+ =\frac1{2\pi}\int_0^{2\pi}g(c+re^{i\theta})\,d\theta,
+\]
+the second equality by the parametrisation $z=c+re^{i\theta}$,
+$dz=ire^{i\theta}\,d\theta$. Taking real parts gives the assertion.
+\end{proof}
+
+Now fix $c\in\Q+i\Q$ with $c\neq0$ and a rational $R$ with $0<R<|c|$, and put
+\begin{equation}\label{eq:margin}
+ r=\frac R2<R,
+\end{equation}
+so that $\overline{B(c,r)}\subset B(c,R)$ with a strict radius margin. On the
+circle $|z-c|=r$ we have
+\[
+ 0<\delta:=|c|-r\leq|z|\leq|c|+r=:M,
+\]
+the left inequality because $r<R<|c|$. Consequently there is an integer
+$n_0=n_0(c,R)\geq1$ such that
+\begin{equation}\label{eq:largen}
+ 1\leq\delta\sqrt n\quad\text{and}\quad M\leq\sqrt n
+ \qquad\text{for all }n\geq n_0,
+\end{equation}
+and then the hypotheses of Lemma~\ref{lem:pointwise} hold at every point of
+the circle $|z-c|=r$, uniformly in $\theta$.
+
+To keep the logarithmic deficit real-valued, define
+\[
+ \ell(w)=\begin{cases}\log|w|,&w\neq0,\\ 0,&w=0,\end{cases}
+ \qquad
+ D_{n,z}=\max\{p_n(z)-\ell(F_n(z))-L_n,\,0\},
+\]
+and, for $n\geq n_0$,
+\[
+ \overline D_n=\frac1{2\pi}\int_0^{2\pi}D_{n,c+re^{i\theta}}\,d\theta .
+\]
+The function $\ell$ is Borel measurable on $\C$, and $(\omega,z)\mapsto
+F_n(\omega,z)$ is jointly continuous, so
+$(\omega,\theta)\mapsto D_{n,c+re^{i\theta}}(\omega)$ is jointly measurable
+on $\Omega\times[0,2\pi]$ and $\overline D_n$ is a measurable function of
+$\omega$. Because $\ell(w)\geq\log|w|$ for every $w\in\C$ in the
+extended-real order, with equality unless $w=0$, we have, for $s\geq0$,
+\[
+ \{D_{n,z}>s\}\subseteq
+ \{p_n(z)-\log|F_n(z)|>s+L_n\}.
+\]
+Combining this with Lemma~\ref{lem:pointwise} and using $e^{-2s}\leq e^{-s/2}$
+for $s\geq0$ gives the tail hypothesis of Lemma~\ref{lem:circle-tail}
+explicitly: for $n\geq n_0$, every $z$ on the circle $|z-c|=r$ and every
+$s\geq0$,
+\begin{equation}\label{eq:bridge}
+ \Pp\{D_{n,z}>s\}
+ \leq\Pp\{p_n(z)-\log|F_n(z)|>s+L_n\}
+ \leq e^{-2s}
+ \leq e^{-s/2}.
+\end{equation}
+So Lemma~\ref{lem:circle-tail} applies to $Y(\omega,\theta)
+=D_{n,c+re^{i\theta}}(\omega)$ and to $\overline Y=\overline D_n$.
+
+Let
+\[
+ H_n(c,R)=\{\omega\in\Omega:F_n(\omega,\cdot)\text{ has no zero in }B(c,R)\}.
+\]
+
+\begin{lemma}\label{lem:measurable}
+$H_n(c,R)\in\mathcal F$.
+\end{lemma}
+
+\begin{proof}
+We claim that
+\begin{equation}\label{eq:meas-identity}
+ H_n(c,R)=\bigcap_{\substack{\rho\in\Q\\ 0<\rho<R}}
+ \Bigl\{\omega:\min_{|z-c|\leq\rho}|F_n(\omega,z)|>0\Bigr\},
+\end{equation}
+the minimum being attained because $z\mapsto|F_n(\omega,z)|$ is continuous
+and $\overline{B(c,\rho)}$ is compact. If $\omega\in H_n(c,R)$ and
+$0<\rho<R$, then $\overline{B(c,\rho)}\subset B(c,R)$, so $|F_n(\omega,
+\cdot)|$ is continuous and strictly positive on a compact set and its minimum
+there is positive. Conversely, if the right-hand side contains $\omega$ and
+$z\in B(c,R)$, choose a rational $\rho$ with $|z-c|\leq\rho<R$; then
+$|F_n(\omega,z)|>0$. This proves \eqref{eq:meas-identity}, and the
+intersection is countable.
+
+It remains to check that, for fixed $\rho\in(0,R)$, the function
+\[
+ M_\rho(\omega)=\min_{|z-c|\leq\rho}|F_n(\omega,z)|
+\]
+is $\mathcal F$-measurable. Let $Q_\rho=(\Q+i\Q)\cap B(c,\rho)$, a countable
+set that is dense in $\overline{B(c,\rho)}$. For fixed $\omega$ the function
+$z\mapsto|F_n(\omega,z)|$ is continuous on the compact set
+$\overline{B(c,\rho)}$, and a continuous function on a compact set has the
+same infimum over the set as over any dense subset of it; hence
+\[
+ M_\rho(\omega)=\inf_{z\in Q_\rho}|F_n(\omega,z)| .
+\]
+For each fixed $z$ the map $\omega\mapsto|F_n(\omega,z)|$ is measurable, as
+noted after \eqref{eq:derivative}, so $M_\rho$ is a countable infimum of
+measurable functions and is therefore measurable. Consequently
+$\{M_\rho>0\}\in\mathcal F$ for every rational $\rho\in(0,R)$, and
+\eqref{eq:meas-identity} exhibits $H_n(c,R)$ as a countable intersection of
+sets in $\mathcal F$.
+\end{proof}
+
+We can now estimate $\Pp(H_n(c,R))$. Fix $n\geq n_0$ and work on the event
+$H_n(c,R)$, on which $F_n$ is holomorphic and zero-free on $B(c,R)$ by the
+definition of that event. Since $r=R/2<R$ by \eqref{eq:margin},
+Lemma~\ref{lem:mvp} applies with $G=F_n$ and $\rho=R$ and gives
 \begin{equation}\label{eq:jensen}
  \frac1{2\pi}\int_0^{2\pi}\log|F_n(c+re^{i\theta})|\,d\theta
- =\log|F_n(c)|.
+ =\log|F_n(c)| .
 \end{equation}
-By Lemma~\ref{lem:saddle}(2),
+Lemma~\ref{lem:saddle}(2), applied with $R$ replaced by $|c|$ and evaluated
+at $z=c$, gives
+\begin{equation}\label{eq:centre}
+ \log|F_n(c)|\leq p_n(c)+C(c),\qquad C(c)=\frac{|c|+|c|^2}{2}.
+\end{equation}
+On $H_n(c,R)$ we have $F_n(z)\neq0$ for $z\in\overline{B(c,r)}$, so
+$\ell(F_n(z))=\log|F_n(z)|$ there and therefore
+$D_{n,z}\geq p_n(z)-\log|F_n(z)|-L_n$ on the circle $|z-c|=r$. Averaging over
+that circle and using
 \[
- \log|F_n(c)|\leq p_n(c)+C(c),
- \qquad C(c)=\frac{|c|+|c|^2}{2}.
+ \frac1{2\pi}\int_0^{2\pi}p_n(c+re^{i\theta})\,d\theta
+ =\tfrac12\log(n!)+\sqrt n\cdot\frac1{2\pi}\int_0^{2\pi}|c+re^{i\theta}|\,d\theta
+ =p_n(c)+\gamma(c,r)\sqrt n,
 \]
-Since $D_{n,z}\geq p_n(z)-\log|F_n(z)|-L_n$, equations \eqref{eq:gap} and \eqref{eq:jensen} imply on $H_n(c,R)$ that
-\begin{align*}
+together with \eqref{eq:jensen} and \eqref{eq:centre}, we obtain on
+$H_n(c,R)$ that
+\[
  \overline D_n
- &\geq \frac1{2\pi}\int_0^{2\pi}p_n(c+re^{i\theta})\,d\theta
-       -p_n(c)-C(c)-L_n\\
- &=\gamma(c,r)\sqrt n-C(c)-2-\frac12\log n=:T_n.
-\end{align*}
-The measurable set $G_n=\{\overline D_n\geq T_n\}$ contains $H_n(c,R)$.  Now $T_n\to\infty$ and, more precisely, $T_n\geq\frac12\gamma(c,r)\sqrt n$ for all sufficiently large $n$.  Writing $\Pp^*$ for outer probability, Lemma~\ref{lem:circle-tail} therefore gives
+ \geq p_n(c)+\gamma(c,r)\sqrt n-\log|F_n(c)|-L_n
+ \geq\gamma(c,r)\sqrt n-C(c)-L_n=:T_n,
+\]
+that is,
+\begin{equation}\label{eq:inclusion}
+ H_n(c,R)\subseteq\{\overline D_n\geq T_n\},
+ \qquad
+ T_n=\gamma(c,r)\sqrt n-C(c)-2-\log(n+1).
+\end{equation}
+By Lemma~\ref{lem:gap} we have $\gamma(c,r)>0$, and
+$C(c)+2+\log(n+1)=o(\sqrt n)$, so there is $n_1=n_1(c,R)\geq n_0$ with
+\begin{equation}\label{eq:Tn}
+ T_n\geq\max\Bigl\{\tfrac12\gamma(c,r)\sqrt n,\;8\Bigr\},
+ \qquad n\geq n_1 .
+\end{equation}
+For $n\geq n_1$, Lemma~\ref{lem:circle-tail} together with
+\eqref{eq:bridge}, \eqref{eq:inclusion} and \eqref{eq:Tn} gives
 \begin{equation}\label{eq:hole}
- \Pp^*\bigl(H_n(c,R)\bigr)\leq\Pp(G_n)\leq2e^{-T_n/8}
- \leq2\exp\left(-\frac{\gamma(c,r)}{16}\sqrt n\right)
+ \Pp\bigl(H_n(c,R)\bigr)\leq\Pp\{\overline D_n\geq T_n\}
+ \leq2e^{-T_n/8}
+ \leq2\exp\left(-\frac{\gamma(c,r)}{16}\sqrt n\right).
 \end{equation}
-for all sufficiently large $n$.  The series of the right-hand side converges; for example, $\log n=o(\sqrt n)$ gives an eventual comparison with $n^{-2}$.  Hence
+The right-hand side of \eqref{eq:hole} is summable, since
+$\exp(-\gamma(c,r)\sqrt n/16)\leq n^{-2}$ for all large $n$, and the finitely
+many terms with $n<n_1$ are each at most $1$. Hence
 \begin{equation}\label{eq:summable-holes}
- \sum_{n=0}^{\infty}\Pp^*\bigl(H_n(c,R)\bigr)<\infty.
+ \sum_{n=0}^{\infty}\Pp\bigl(H_n(c,R)\bigr)<\infty .
 \end{equation}
-This formulation avoids a separate measurability argument for the zero-free sets.  The usual proof of the first Borel--Cantelli estimate \cite[Section~2.3]{Durrett} applies verbatim to outer probability, since
-$\Pp^*(\limsup_n H_n)\leq\inf_N\sum_{n\geq N}\Pp^*(H_n)=0$ whenever
-$\sum_n\Pp^*(H_n)<\infty$.
+All the events involved are measurable by Lemma~\ref{lem:measurable}, so the
+first Borel--Cantelli lemma \cite[Section~2.3]{Durrett} applies and shows
+that
+\begin{equation}\label{eq:bc}
+ \Pp\Bigl(\limsup_{n\to\infty}H_n(c,R)\Bigr)=0;
+\end{equation}
+that is, almost surely only finitely many $F_n$ are zero-free in $B(c,R)$.
 
-Choose a countable family $\mathcal B$ of disks $B(c,R)$ with $c\in\mathbb Q+i\mathbb Q$, $R\in\mathbb Q_{>0}$, and $R<|c|$.  This is still an inner base for $\C$: every nonempty open set contains a nonzero point, then a nearby nonzero rational point and a sufficiently small rational disk around it.  For each $B\in\mathcal B$, \eqref{eq:summable-holes} and the first Borel--Cantelli lemma show that outside an outer-null set only finitely many $F_n$ are zero-free in $B$.  The countable union of these exceptional outer-null sets is outer-null.  Intersecting its complement with the probability-one event that every $\xi_k$ is nonzero gives a nonempty event on which all conclusions hold simultaneously.
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Let $\mathcal B$ be the family of disks $B(c,R)$ with $c\in\Q+i\Q$,
+$c\neq0$, $R\in\Q_{>0}$ and $R<|c|$; it is countable. We check that every
+nonempty open set $U\subset\C$ contains a member of $\mathcal B$. Since $U$
+is open and nonempty it contains a point $z_0\neq0$, and there is
+$\varepsilon>0$ with $B(z_0,\varepsilon)\subset U$ and
+$\varepsilon<|z_0|/2$. Choose $c\in\Q+i\Q$ with $|c-z_0|<\varepsilon/4$;
+then $|c|\geq|z_0|-\varepsilon/4>0$, so $c\neq0$. Choose a rational $R$ with
+$0<R<\min\{\varepsilon/2,|c|\}$. Then $R<|c|$, and every $z$ with $|z-c|<R$
+satisfies $|z-z_0|<\varepsilon/4+\varepsilon/2<\varepsilon$, so
+$B(c,R)\subset B(z_0,\varepsilon)\subset U$ and $B(c,R)\in\mathcal B$.
 
-Select a sample in this event and denote its entire function by $f$.  It is nonzero and nonpolynomial.  If $U\subset\C$ is nonempty and open, choose $B\in\mathcal B$ with $B\subset U$.  All sufficiently high derivatives of $f$ have a zero in $B$, hence in $U$.  This proves Theorem~\ref{thm:main}; Lemma~\ref{lem:cofinite} supplies the equivalent subsequence statement.
+By \eqref{eq:bc}, for each $B=B(c,R)\in\mathcal B$ there is a
+$\Pp$-null set $\mathcal N_B$ outside of which only finitely many $F_n$ are
+zero-free in $B$. The union $\mathcal N=\bigcup_{B\in\mathcal B}\mathcal N_B$
+is a countable union of null sets and is therefore null. With $\Omega_0$ as
+in \eqref{eq:nonzero} we have $\Pp(\Omega_0\setminus\mathcal N)=1$; in
+particular this event is nonempty. Fix $\omega\in\Omega_0\setminus\mathcal N$
+and let $f$ be the entire function \eqref{eq:fock} determined by it.
 
-\section{Relation to a theorem of Boas and Reddy}\label{sec:boas-reddy}
+Then $f$ is transcendental, because $\omega\in\Omega_0$ makes every Taylor
+coefficient of $f$ nonzero, and $f$ satisfies \eqref{eq:growth}, which holds
+for every sample. Let $U\subset\C$ be nonempty and open and choose
+$B\in\mathcal B$ with $B\subset U$. Since $\omega\notin\mathcal N_B$, only
+finitely many $F_n=f^{(n)}$ are zero-free in $B$. Let $N(U)$ be one more than
+the largest such index, or let $N(U)=0$ if there is no such index. Then every
+$n\geq N(U)$ gives a zero of $f^{(n)}$ in $B$, hence in $U$. This is the first
+assertion of Theorem~\ref{thm:main}, and the last assertion follows from it by
+Lemma~\ref{lem:cofinite}.
+\end{proof}
 
-Boas and Reddy state in \cite[Theorem~1]{BoasReddyAnnouncement} that if an entire function has order at most $2$ and finite type, then there is an arbitrarily large disk, somewhere in the plane, on which infinitely many of its successive derivatives are zero-free.  The paragraph on the following page explicitly describes this as one fixed disk that is zero-free for infinitely many derivatives.  Their expanded article is \cite{BoasReddyFull}.
+\section*{Declaration of AI use}
 
-That assertion is incompatible with Theorem~\ref{thm:main}, not merely with a stronger uniform-density statement.  Indeed, let $D$ be any fixed nonempty open disk.  Theorem~\ref{thm:main} gives an $N(D)$ such that $f^{(n)}$ has a zero in $D$ for every $n\geq N(D)$.  Hence only finitely many derivatives can be zero-free on $D$.  On the other hand, \eqref{eq:growth} places this same function within the growth class of the printed Boas--Reddy assertion.  We conclude:
+During the preparation of this work the author used AI tools --- GPT-5.6 Sol,
+which assisted with the proof of the small-ball estimate and with editing the
+manuscript, and Anthropic's Claude models (Fable and Opus), which assisted
+with revising the manuscript and auditing the argument --- and the author has
+verified the argument and takes sole responsibility for the mathematical
+content and exposition of this article.
 
-\begin{theorem}\label{thm:boas-reddy-correction}
-Theorem~1 of \cite{BoasReddyAnnouncement} is false as printed.
-\end{theorem}
+\section*{Declarations}
+\noindent\textit{Competing interests.} The author declares no competing interests.
 
-The proof above is independent of the Boas--Reddy papers.  The accompanying Lean theorem packages the cofinite conclusion and \eqref{eq:growth} for the same witness, so the correction does not depend on an informal identification of two separately constructed functions.
+\noindent\textit{Funding.} The author received no specific funding for this work.
 
-\medskip
-\noindent\textbf{Formal verification.}
-A machine-checked Lean 4 formalization of the main theorem and the supporting exact iterated-derivative formula, saddle estimates, small-ball and logarithmic-tail bounds, Jensen argument, summable hole probabilities, countable-base reduction, and deterministic extraction is available at
-\[
- \href{https://github.com/erichou1/cofinite-derivative-zeros}
- {\texttt{github.com/erichou1/cofinite-derivative-zeros}}.
-\]
-The expanded public theorem is
-\begin{center}
-\ttfamily
-CofiniteDerivatives.\\
-exists\_transcendental\_entire\_with\_\\
-explicit\_derivative\_zeros\_\\
-and\_growth
-\end{center}
-The project is pinned to Lean~4.28.0 and Mathlib~v4.28.0 \cite{Mathlib}.  The commands
-\[
-\texttt{lake build CofiniteDerivatives}
-\qquad\text{and}\qquad
-\texttt{lake env lean Audit.lean}
-\]
-check the build and print the theorem's axiom dependencies.  The project-owned sources contain no \texttt{sorry}, \texttt{admit}, or custom axiom.
-
-\section*{Acknowledgments}
-GPT-5.6 Sol assisted with proving the small-ball estimate, developing and checking the Lean formalization, and editing the manuscript.  The author verified the argument and takes responsibility for the proof and exposition.
+\noindent\textit{Data availability.} No data were generated or analysed in this
+theoretical study.
 
 \begin{thebibliography}{9}
 
+\bibitem{BarthSchneider1972}
+K.~F. Barth and W.~J. Schneider,
+`On a problem of Erd\H{o}s concerning the zeros of the derivatives of an
+entire function',
+\emph{Proc. Amer. Math. Soc.} \textbf{32} (1972), 229--232.
+
 \bibitem{Bloom906}
 T.~F. Bloom,
-\emph{Erd\H{o}s Problem \#906},
-\url{https://www.erdosproblems.com/906}, accessed July 20, 2026.
-
-\bibitem{BoasReddyAnnouncement}
-R.~P. Boas, Jr. and A.~R. Reddy,
-\emph{Zeros of successive derivatives of entire functions},
-Bull. Amer. Math. Soc. \textbf{79} (1973), 64--65,
-\url{https://doi.org/10.1090/S0002-9904-1973-13093-9}.
-
-\bibitem{BoasReddyFull}
-R.~P. Boas, Jr. and A.~R. Reddy,
-\emph{Zeros of the successive derivatives of entire functions},
-J. Math. Anal. Appl. \textbf{42} (1973), 466--473,
-\url{https://doi.org/10.1016/0022-247X(73)90153-4}.
+`Erd\H{o}s Problem \#906',
+\url{https://www.erdosproblems.com/906}, accessed 5 August 2026.
 
 \bibitem{Conway}
 J.~B. Conway,
-\emph{Functions of One Complex Variable I},
-2nd ed., Graduate Texts in Mathematics, vol.~11, Springer-Verlag, New York, 1978.
+\emph{Functions of One Complex Variable I}, 2nd edn,
+Graduate Texts in Mathematics, 11 (Springer, New York, 1978).
 
 \bibitem{Durrett}
-R. Durrett,
-\emph{Probability: Theory and Examples},
-5th ed., Cambridge Series in Statistical and Probabilistic Mathematics, Cambridge University Press, Cambridge, 2019.
+R.~Durrett,
+\emph{Probability: Theory and Examples}, 5th edn,
+Cambridge Series in Statistical and Probabilistic Mathematics, 49
+(Cambridge University Press, Cambridge, 2019).
+
+\bibitem{Erdos1982}
+P.~Erd\H{o}s,
+`Some of my favourite problems which recently have been solved',
+in: \emph{Proceedings of the International Mathematical Conference,
+Singapore 1981}, North-Holland Mathematics Studies, 74
+(North-Holland, Amsterdam--New York, 1982), 59--79.
 
 \bibitem{Kahane}
 J.-P. Kahane,
-\emph{Some Random Series of Functions},
-2nd ed., Cambridge Studies in Advanced Mathematics, vol.~5, Cambridge University Press, Cambridge, 1985.
+\emph{Some Random Series of Functions}, 2nd edn,
+Cambridge Studies in Advanced Mathematics, 5
+(Cambridge University Press, Cambridge, 1985).
 
-\bibitem{Mathlib}
-The Mathlib Community,
-\emph{Mathlib: the mathematical library of Lean 4},
-\url{https://github.com/leanprover-community/mathlib4}, accessed July 20, 2026.
+\bibitem{MacLane1952}
+G.~R. MacLane,
+`Sequences of derivatives and normal families',
+\emph{J. Anal. Math.} \textbf{2} (1952), 72--87.
 
 \end{thebibliography}
 
