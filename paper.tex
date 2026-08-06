@@ -2,6 +2,12 @@
 
 %% The class already loads amsmath, amssymb, amsthm, txfonts, geometry,
 %% enumerate and hyperref; no further packages are required.
+%% The production class displays a submission banner and placeholder DOI by
+%% default. Suppress both in this author-prepared submission manuscript.
+\makeatletter
+\renewcommand\submittedto{}
+\def\@mainheadline{\gdef\@mymainhead{\mbox{}}\setcounter{page}{1}}
+\makeatother
 
 \newcommand{\C}{\mathbb C}
 \newcommand{\N}{\mathbb N}
