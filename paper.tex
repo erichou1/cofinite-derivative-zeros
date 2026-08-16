@@ -21,6 +21,7 @@
 \theoremstyle{cupthm}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 
 \runningtitle{Cofinite Zeros of High Derivatives}
 \authorheadline{E. Hou}
@@ -43,7 +44,10 @@ one-coordinate anti-concentration bound and the mean value property of
 $\log|f^{(n)}|$ on a zero-free disk. This makes the probability that a
 derivative is zero-free in a fixed disk summable in~$n$. Every sample of the
 series obeys the deterministic bound $|f(z)|\leq\sqrt2\exp(|z|^2)$, so the
-function produced has order at most two and finite type.
+function produced has order at most two and finite type. The same function is
+a counterexample to the printed assertion of Boas and Reddy that every
+function in this growth class admits an arbitrarily large fixed disk zero-free
+for infinitely many successive derivatives.
 \end{abstract}
 
 \classification[2020]{primary 30D20; secondary 30B20, 30C15, 60F15}
@@ -112,10 +116,10 @@ Consequently, the zero sets indexed by every strictly increasing sequence of
 derivative orders have dense union.
 \end{theorem}
 
-The bound \eqref{eq:growth} is recorded because it is what the construction
-produces, and no more is claimed about it here: it says that the function
-below has order at most two and finite type in the usual terminology of
-entire-function theory.
+The bound \eqref{eq:growth} implies that the function below has order at most
+two and, if its order is two, type at most one. The Boas--Reddy consequence,
+with its source quantifier made explicit, is recorded in
+Section~\ref{sec:boas-reddy}.
 
 Two classical constructions come close to the statement of
 Theorem~\ref{thm:main} without reaching it. MacLane \cite{MacLane1952} built
@@ -722,6 +726,30 @@ assertion of Theorem~\ref{thm:main}, and the last assertion follows from it by
 Lemma~\ref{lem:cofinite}.
 \end{proof}
 
+\section{A consequence for a theorem of Boas and Reddy}
+\label{sec:boas-reddy}
+
+Boas and Reddy assert that every entire function of order at most two and
+finite type admits arbitrarily large disks on which infinitely many successive
+derivatives are zero-free \cite[Theorem~1]{BoasReddy1973}. They clarify that
+one fixed disk serves infinitely many derivatives \cite[p.~65]{BoasReddy1973}.
+Their later erratum concerns only the construction for Theorem~2 and does not
+amend Theorem~1 \cite{BoasReddy1975}.
+
+\begin{corollary}
+The statement of \cite[Theorem~1]{BoasReddy1973}, as printed, is false.
+\end{corollary}
+
+\begin{proof}
+Let $f$ be the function supplied by Theorem~\ref{thm:main}. The estimate
+\eqref{eq:growth} places $f$ in the growth class assumed by Boas and Reddy.
+For every fixed nonempty disk $D$, Theorem~\ref{thm:main} supplies an integer
+$N(D)$ such that $f^{(n)}$ has a zero in $D$ whenever $n\geq N(D)$.
+Consequently only the finitely many derivatives with $n<N(D)$ can be
+zero-free in $D$. Thus no disk, of any radius, is zero-free for infinitely
+many successive derivatives of $f$, contrary to the printed conclusion.
+\end{proof}
+
 \section*{Declarations}
 \noindent\textit{Use of AI.} During the preparation of this work the author used
 AI tools. GPT-5.6 Sol assisted with the proof of the small-ball estimate and
@@ -749,31 +777,40 @@ entire function',
 \bibitem{Bloom906}
 T.~F. Bloom,
 `Erd\H{o}s Problem \#906',
-\url{https://www.erdosproblems.com/906}, accessed 5 August 2026.
+\href{https://www.erdosproblems.com/906}{erdosproblems.com/906},
+accessed 5 August 2026.
+
+\bibitem{BoasReddy1973}
+R.~P. Boas, Jr. and A.~R. Reddy,
+`Zeros of successive derivatives of entire functions',
+\emph{Bull. Amer. Math. Soc.} \textbf{79} (1973), 64--65,
+\url{https://doi.org/10.1090/S0002-9904-1973-13093-9}.
+
+\bibitem{BoasReddy1975}
+R.~P. Boas, Jr. and A.~R. Reddy,
+`Erratum',
+\emph{J. Math. Anal. Appl.} \textbf{49} (1975), 527.
 
 \bibitem{Conway}
 J.~B. Conway,
 \emph{Functions of One Complex Variable I}, 2nd edn,
-Graduate Texts in Mathematics, 11 (Springer, New York, 1978).
+(Springer, New York, 1978).
 
 \bibitem{Durrett}
 R.~Durrett,
 \emph{Probability: Theory and Examples}, 5th edn,
-Cambridge Series in Statistical and Probabilistic Mathematics, 49
-(Cambridge University Press, Cambridge, 2019).
+(Cambridge University Press, 2019).
 
 \bibitem{Erdos1982}
 P.~Erd\H{o}s,
 `Some of my favourite problems which recently have been solved',
-in: \emph{Proceedings of the International Mathematical Conference,
-Singapore 1981}, North-Holland Mathematics Studies, 74
-(North-Holland, Amsterdam--New York, 1982), 59--79.
+in: \emph{Proc. Internat. Math. Conf., Singapore 1981},
+North-Holland Math. Stud. 74 (North-Holland, 1982), 59--79.
 
 \bibitem{Kahane}
-J.-P. Kahane,
+J.-P.~Kahane,
 \emph{Some Random Series of Functions}, 2nd edn,
-Cambridge Studies in Advanced Mathematics, 5
-(Cambridge University Press, Cambridge, 1985).
+(Cambridge University Press, 1985).
 
 \bibitem{MacLane1952}
 G.~R. MacLane,

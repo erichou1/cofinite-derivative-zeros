@@ -5,8 +5,8 @@ type: article
 authors:
   - family-names: Hou
     given-names: Eric
-date-released: 2026-08-05
-version: 1.1.0
+date-released: 2026-08-15
+version: 1.2.0
 repository-code: "https://github.com/erichou1/cofinite-derivative-zeros"
 keywords:
   - complex analysis
@@ -17,7 +17,8 @@ keywords:
 abstract: >-
   A proposed construction of a transcendental entire function whose
   sufficiently high derivatives have a zero in every prescribed nonempty
-  open subset of the complex plane.
+  open subset of the complex plane, yielding a counterexample to Theorem 1
+  of Boas and Reddy as printed.
 preferred-citation:
   type: article
   title: "Cofinite Zeros of High Derivatives"

@@ -2,7 +2,7 @@
 
 Eric Hou, 2026.
 
-This repository distributes the current manuscript **Cofinite Zeros of High Derivatives**. It gives a proposed construction of a transcendental entire function whose sufficiently high derivatives have a zero in every nonempty open subset of the complex plane.
+This repository distributes the current manuscript **Cofinite Zeros of High Derivatives**. It gives a proposed construction of a transcendental entire function whose sufficiently high derivatives have a zero in every nonempty open subset of the complex plane. The resulting growth bound also yields a counterexample to Theorem 1 of Boas and Reddy, *Bull. Amer. Math. Soc.* 79 (1973), as printed. Their 1975 erratum concerns Theorem 2 and does not amend Theorem 1.
 
 ## Manuscript files
 
@@ -10,7 +10,7 @@ This repository distributes the current manuscript **Cofinite Zeros of High Deri
 - [`paper.pdf`](paper.pdf): PDF compiled from the committed source.
 - [`baustms.cls`](baustms.cls): the Bulletin class file used by the manuscript.
 
-The manuscript states the construction, its growth bound, the probabilistic estimates, and every proof used for the claimed cofinite zero-hitting property. It does not rely on this repository as part of its proof.
+The manuscript states the construction, its growth bound, the probabilistic estimates, every proof used for the claimed cofinite zero-hitting property, and the exact fixed-disk quantifier needed for the Boas--Reddy consequence. It does not rely on this repository as part of its proof.
 
 ## Build the paper
 
