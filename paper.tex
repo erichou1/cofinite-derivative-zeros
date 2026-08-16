@@ -43,9 +43,9 @@ Combining one-coordinate anti-concentration with the mean value property of
 $\log|f^{(n)}|$ yields a summable bound for the probability that $f^{(n)}$ is
 zero-free on a fixed disk. Every sample satisfies
 $|f(z)|\leq\sqrt2\exp(|z|^2)$. The resulting function is a counterexample to
-Boas and Reddy's printed assertion that every entire function of order at most
-two and finite type admits an arbitrarily large fixed disk zero-free for
-infinitely many successive derivatives.
+Boas and Reddy's printed assertion that every transcendental entire function
+of order at most two and finite type admits an arbitrarily large fixed disk
+zero-free for infinitely many successive derivatives.
 \end{abstract}
 
 \classification[2020]{primary 30D20; secondary 30B20, 30C15, 60F15}
@@ -128,7 +128,9 @@ sequence $(S_k)_{k\geq0}$ of discrete subsets of $\C$, one can choose
 derivative orders $n_k$ and a transcendental entire function whose
 $n_k$-th derivative vanishes on $S_k$. Both results yield density statements
 near the one asked for, in that they force a union of derivative zero sets to
-be dense; neither yields assertion~(2) of Lemma~\ref{lem:cofinite}. MacLane's
+be dense; neither yields assertion~(2) of Lemma~\ref{lem:cofinite}.
+
+MacLane's
 theorem controls the derivatives only through approximation in the locally
 uniform topology, which does not preclude an infinite set of derivative
 orders whose zero sets all miss one fixed disk. In the Barth--Schneider
@@ -467,49 +469,24 @@ For all $c\in\C$ and $r>0$ we have $\gamma(c,r)>0$.
 \end{lemma}
 
 \begin{proof}
-Define
+Set
 \[
- \varphi(\theta)=|c+re^{i\theta}|+|c-re^{i\theta}|-2|c|,
- \qquad\theta\in[0,2\pi].
+ \varphi(\theta)=|c+re^{i\theta}|+|c-re^{i\theta}|-2|c|.
 \]
-Since $(c+re^{i\theta})+(c-re^{i\theta})=2c$, the triangle inequality gives
-$\varphi\geq0$ everywhere, and $\varphi$ is continuous because
-$\theta\mapsto|c\pm re^{i\theta}|$ is.
-
-We claim that $\varphi(\theta_0)>0$ for some $\theta_0$. If $c=0$ then
-$\varphi\equiv2r>0$. If $c\neq0$, choose $\theta_0$ with
-$re^{i\theta_0}=irc/|c|$, so that $re^{i\theta_0}$ is perpendicular to $c$;
-then $|c\pm re^{i\theta_0}|=\sqrt{|c|^2+r^2}$ by the Pythagorean identity, so
+The triangle inequality gives $\varphi\geq0$, and $\varphi$ is continuous. If
+$c=0$, then $\varphi\equiv2r>0$. If $c\neq0$, choose $\theta_0$ with
+$re^{i\theta_0}=irc/|c|$. The Pythagorean identity gives
 \[
- \varphi(\theta_0)=2\sqrt{|c|^2+r^2}-2|c|>0 .
+ \varphi(\theta_0)=2\sqrt{|c|^2+r^2}-2|c|>0.
 \]
-The perpendicular choice above exhibits strict inequality at the two angles
-$\theta_0$ and $\theta_0+\pi$. Those points have measure zero. Since
-$\varphi$ is continuous and $\varphi(\theta_0)>0$, there is a
-$\delta>0$ such that
-\begin{equation}\label{eq:phi-interval}
- \varphi(\theta)\geq\tfrac12\varphi(\theta_0)>0
- \qquad\text{for all }\theta\in I:=[\theta_0-\delta,\theta_0+\delta],
-\end{equation}
-so strictness holds on an interval of positive length, not merely at isolated
-angles.
-
-The substitution $\theta\mapsto\theta+\pi$ and $2\pi$-periodicity give
-$\int_0^{2\pi}|c-re^{i\theta}|\,d\theta=\int_0^{2\pi}|c+re^{i\theta}|\,d\theta$,
-whence
+Thus continuity implies
+$\int_0^{2\pi}\varphi(\theta)\,d\theta>0$. The substitution
+$\theta\mapsto\theta+\pi$ gives
 \[
- \frac1{2\pi}\int_0^{2\pi}\varphi(\theta)\,d\theta
- =2\left(\frac1{2\pi}\int_0^{2\pi}|c+re^{i\theta}|\,d\theta-|c|\right)
- =2\gamma(c,r).
+ 2\gamma(c,r)
+ =\frac1{2\pi}\int_0^{2\pi}\varphi(\theta)\,d\theta>0,
 \]
-Since $\varphi\geq0$ everywhere, \eqref{eq:phi-interval} gives
-\[
- 2\gamma(c,r)\geq\frac1{2\pi}\int_I\varphi(\theta)\,d\theta
- \geq\frac{2\delta}{2\pi}\cdot\tfrac12\varphi(\theta_0)>0,
-\]
-which is the assertion. (Here $I$ is understood modulo $2\pi$; if it is not
-contained in $[0,2\pi]$, replace it by its intersection with a period
-interval containing $\theta_0$ in its interior.)
+as required.
 \end{proof}
 
 Next we record the mean value step in the exact form needed, with the strict
@@ -563,7 +540,8 @@ $n_0=n_0(c,R)\geq1$ such that
 and then the hypotheses of Lemma~\ref{lem:pointwise} hold at every point of
 the circle $|z-c|=r$, uniformly in $\theta$.
 
-To keep the logarithmic deficit real-valued, define
+To obtain a real-valued measurable deficit without changing it on the
+zero-free event used below, define
 \[
  \ell(w)=\begin{cases}\log|w|,&w\neq0,\\ 0,&w=0,\end{cases}
  \qquad
@@ -577,7 +555,9 @@ The function $\ell$ is Borel measurable on $\C$, and $(\omega,z)\mapsto
 F_n(\omega,z)$ is jointly continuous, so
 $(\omega,\theta)\mapsto D_{n,c+re^{i\theta}}(\omega)$ is jointly measurable
 on $\Omega\times[0,2\pi]$ and $\overline D_n$ is a measurable function of
-$\omega$. Because $\ell(w)\geq\log|w|$ for every $w\in\C$ in the
+$\omega$.
+
+Because $\ell(w)\geq\log|w|$ for every $w\in\C$ in the
 extended-real order, with equality unless $w=0$, we have, for $s\geq0$,
 \[
  \{D_{n,z}>s\}\subseteq
@@ -737,9 +717,10 @@ Lemma~\ref{lem:cofinite}.
 \section{A consequence for a theorem of Boas and Reddy}
 \label{sec:boas-reddy}
 
-Boas and Reddy assert that every entire function of order at most two and
-finite type admits arbitrarily large disks on which infinitely many successive
-derivatives are zero-free \cite[Theorem~1]{BoasReddy1973}. They clarify that
+Under their standing assumption that $f$ is transcendental, Boas and Reddy
+assert that if $f$ is of order at most two and finite type, then $f$ admits
+arbitrarily large disks on which infinitely many successive derivatives are
+zero-free \cite[Theorem~1]{BoasReddy1973}. They clarify that
 one fixed disk serves infinitely many derivatives \cite[p.~65]{BoasReddy1973}.
 Their later erratum concerns only the construction for Theorem~2 and does not
 amend Theorem~1 \cite{BoasReddy1975}.
