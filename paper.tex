@@ -28,7 +28,8 @@
 
 \title{Cofinite Zeros of High Derivatives}
 \author{Eric Hou}
-\address{Los Gatos, California, USA\email{eric.x.hou@gmail.com}}
+\address{Independent researcher, Los Gatos, California, USA%
+\email{eric.x.hou@gmail.com}}
 
 \begin{document}
 
@@ -38,7 +39,8 @@ open subset of the complex plane contains a zero of $f^{(n)}$ for all
 sufficiently large~$n$. Thus every strictly increasing sequence of derivative
 orders has zero sets with dense union. The construction uses a random Fock
 series with independent coefficients uniformly distributed on the closed unit
-disk. A saddle-point estimate supplies a dominant Taylor coefficient.
+disk. A saddle-point estimate selects a Taylor coefficient with a lower bound
+at the natural scale.
 Combining one-coordinate anti-concentration with the mean value property of
 $\log|f^{(n)}|$ yields a summable bound for the probability that $f^{(n)}$ is
 zero-free on a fixed disk. Every sample satisfies
@@ -141,8 +143,8 @@ from infinitely many admissible derivative orders to cofinitely many, and it
 is that passage which the construction below supplies.
 
 The online record labels the problem \textsc{open} while cautioning that its
-status may miss relevant literature \cite{Bloom906}. We therefore give a
-self-contained proof.
+status may miss relevant literature \cite{Bloom906}. Our argument is
+self-contained.
 
 The method is probabilistic and belongs to the theory of random analytic
 functions; for the general theory of random series of functions we refer to
@@ -154,11 +156,13 @@ The proof is organised as follows. Section~\ref{sec:fock} introduces a random
 Fock series whose coefficients are bounded by one, so that the growth bound
 \eqref{eq:growth} holds for every sample, and establishes the two
 deterministic estimates behind the argument: a saddle-point lower bound
-identifying a single Taylor coefficient of $f^{(n)}$ that dominates the
-relevant scale on a given circle, and a matching upper bound for the whole
+selecting a Taylor coefficient of $f^{(n)}$ whose magnitude is bounded below
+at the relevant scale on a given circle, and a matching upper bound for the whole
 series. Anti-concentration in that one coefficient converts the lower bound
 into a pointwise tail estimate for the logarithmic deficit of $f^{(n)}$,
-which is then averaged over a circle. In Section~\ref{sec:holes},
+which is then averaged over a circle.
+
+In Section~\ref{sec:holes},
 zero-freeness of $f^{(n)}$ on a disk forces, through the mean value property
 of $\log|f^{(n)}|$, a large averaged deficit on the boundary circle, an event
 of small probability. The resulting hole probabilities are summable in $n$;
@@ -412,7 +416,7 @@ $\omega'$, so integrating over $\Omega'$ preserves it. This proves
 
 The pointwise estimate is used through the following circle-average bound.
 
-\begin{lemma}[Circle lower tail]\label{lem:circle-tail}
+\begin{lemma}[Circle-average upper tail]\label{lem:circle-tail}
 Let $Y\geq0$ be jointly measurable on $\Omega\times[0,2\pi]$ and suppose that
 \[
  \Pp\{Y(\cdot,\theta)>s\}\leq e^{-s/2},\qquad s\geq0,
@@ -741,12 +745,11 @@ many successive derivatives of $f$, contrary to the printed conclusion.
 \end{proof}
 
 \section*{Declarations}
-\noindent\textit{Use of AI.} During the preparation of this work the author used
-AI tools. GPT-5.6 Sol assisted with the proof of the small-ball estimate and
-with editing the manuscript. Anthropic's Claude models, Fable and Opus,
-assisted with revising the manuscript and auditing the argument. The author
-has verified the argument and takes sole responsibility for the mathematical
-content and exposition of this article.
+\noindent\textit{Use of AI.} During preparation, OpenAI's GPT-5.6 Sol assisted
+with the small-ball estimate and editing. Anthropic's Claude Fable and Opus and
+OpenAI Codex assisted with manuscript revision and argument auditing. The
+author checked all AI-assisted output and takes sole responsibility for the
+mathematical content and exposition of this article.
 
 \medskip
 \noindent\textit{Competing interests.} The author declares no competing interests.
