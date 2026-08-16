@@ -140,12 +140,9 @@ not every one. By Lemma~\ref{lem:cofinite} the problem is exactly the passage
 from infinitely many admissible derivative orders to cofinitely many, and it
 is that passage which the construction below supplies.
 
-At the time of access on 5 August 2026, the online record still labelled the
-problem \textsc{open} and displayed one claimed proof. It also cautions that
-this label records its owner's current belief and may miss relevant literature
-\cite{Bloom906}. Thus the present article is a proposed resolution, and the
-status of the question should be assessed from the proof rather than from an
-online label.
+The online record labels the problem \textsc{open} while cautioning that its
+status may miss relevant literature \cite{Bloom906}. The present article
+should therefore be assessed from its proof.
 
 The method is probabilistic and belongs to the theory of random analytic
 functions; for the general theory of random series of functions we refer to
@@ -195,7 +192,8 @@ term differentiation is legitimate, and for $n\geq0$,
 \end{equation}
 The partial sums of \eqref{eq:derivative} are continuous on
 $\Omega\times\C$ and converge uniformly on $\Omega\times\{|z|\leq M\}$ for
-every $M$, so $(\omega,z)\mapsto F_n(\omega,z)$ is jointly continuous; in
+every $M$: the absolute-value majorant has successive-term ratio
+$M\sqrt{n+m+1}/(m+1)\to0$. Hence $(\omega,z)\mapsto F_n(\omega,z)$ is jointly continuous; in
 particular $\omega\mapsto F_n(\omega,z)$ is $\mathcal F$-measurable for each
 fixed $z$. The law $m_\D$ has no atoms, so $\Pp\{\xi_k=0\}=0$ for every $k$,
 and therefore
@@ -618,7 +616,8 @@ It remains to check that, for fixed $\rho\in(0,R)$, the function
  M_\rho(\omega)=\min_{|z-c|\leq\rho}|F_n(\omega,z)|
 \]
 is $\mathcal F$-measurable. Let $Q_\rho=(\Q+i\Q)\cap B(c,\rho)$, a countable
-set that is dense in $\overline{B(c,\rho)}$. For fixed $\omega$ the function
+set that is dense in $\overline{B(c,\rho)}$: boundary points are approached
+from inside the disk and then by points of $\Q+i\Q$. For fixed $\omega$ the function
 $z\mapsto|F_n(\omega,z)|$ is continuous on the compact set
 $\overline{B(c,\rho)}$, and a continuous function on a compact set has the
 same infimum over the set as over any dense subset of it; hence
