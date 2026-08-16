@@ -33,21 +33,19 @@
 \begin{document}
 
 \begin{abstract}
-We construct a transcendental entire function $f$ such that every nonempty
+We construct a transcendental entire function $f$ for which every nonempty
 open subset of the complex plane contains a zero of $f^{(n)}$ for all
-sufficiently large~$n$; equivalently, for every strictly increasing sequence
-of derivative orders the corresponding zero sets have dense union. The
-construction is probabilistic. We take a Fock series whose coefficients are
-independent and uniformly distributed on the closed unit disk, and we combine
-a saddle-point estimate for the Taylor coefficients of the derivatives with a
-one-coordinate anti-concentration bound and the mean value property of
-$\log|f^{(n)}|$ on a zero-free disk. This makes the probability that a
-derivative is zero-free in a fixed disk summable in~$n$. Every sample of the
-series obeys the deterministic bound $|f(z)|\leq\sqrt2\exp(|z|^2)$, so the
-function produced has order at most two and finite type. The same function is
-a counterexample to the printed assertion of Boas and Reddy that every
-function in this growth class admits an arbitrarily large fixed disk zero-free
-for infinitely many successive derivatives.
+sufficiently large~$n$. Thus every strictly increasing sequence of derivative
+orders has zero sets with dense union. The construction uses a random Fock
+series with independent coefficients uniformly distributed on the closed unit
+disk. A saddle-point estimate supplies a dominant Taylor coefficient.
+Combining one-coordinate anti-concentration with the mean value property of
+$\log|f^{(n)}|$ yields a summable bound for the probability that $f^{(n)}$ is
+zero-free on a fixed disk. Every sample satisfies
+$|f(z)|\leq\sqrt2\exp(|z|^2)$. The resulting function is a counterexample to
+Boas and Reddy's printed assertion that every entire function of order at most
+two and finite type admits an arbitrarily large fixed disk zero-free for
+infinitely many successive derivatives.
 \end{abstract}
 
 \classification[2020]{primary 30D20; secondary 30B20, 30C15, 60F15}
@@ -141,8 +139,8 @@ from infinitely many admissible derivative orders to cofinitely many, and it
 is that passage which the construction below supplies.
 
 The online record labels the problem \textsc{open} while cautioning that its
-status may miss relevant literature \cite{Bloom906}. The present article
-should therefore be assessed from its proof.
+status may miss relevant literature \cite{Bloom906}. We therefore give a
+self-contained proof.
 
 The method is probabilistic and belongs to the theory of random analytic
 functions; for the general theory of random series of functions we refer to
@@ -312,8 +310,11 @@ For (2), note that
 \[
  b_{n,m}(r)=\sqrt{\frac{\binom{n+m}{n}}{m!}}\,r^m .
 \]
-If $r>0$, put $t=r/(r+\sqrt n)\in(0,1)$, so that
-$\binom{n+m}{n}r^{2m}/m!=\bigl(\binom{n+m}{n}t^m\bigr)\bigl((r^2/t)^m/m!\bigr)$.
+If $r>0$, put $t=r/(r+\sqrt n)\in(0,1)$. Then
+\[
+ \frac{\binom{n+m}{n}r^{2m}}{m!}
+ =\left(\binom{n+m}{n}t^m\right)\frac{(r^2/t)^m}{m!}.
+\]
 Cauchy--Schwarz, the binomial series
 $\sum_{m\geq0}\binom{n+m}{n}t^m=(1-t)^{-(n+1)}$ and the exponential series
 give
@@ -372,13 +373,14 @@ is deterministic and
  \frac{\sqrt{(n+j)!}}{j!}\,z^j
 \]
 is the remainder.
-Three properties of $w$ are used. First, the series defining $w$ converges
-absolutely for every $\omega$, since $|\xi_{n+j}|\leq1$ and
+We first check that $w$ is finite and measurable. The series defining $w$
+converges absolutely for every $\omega$, since $|\xi_{n+j}|\leq1$ and
 $\sum_{j\geq0}a_{n,j}(|z|)=S_n(|z|)<\infty$ by
 Lemma~\ref{lem:saddle}(2); so $w$ is finite everywhere, not merely almost
-surely. Second, $w$ is a measurable function of $\omega$, being a uniform
-limit of continuous functions on $\Omega$. Third, and decisively, $w$ does
-not depend on the coordinate $\omega_k$: it is measurable with respect to
+surely. It is also a measurable function of $\omega$, being a uniform
+limit of continuous functions on $\Omega$. The independence needed below
+comes from the fact that $w$ does not depend on the coordinate $\omega_k$:
+it is measurable with respect to
 $\mathcal G=\sigma(\xi_j:j\neq k)$, since the index $j=m$ is omitted from the
 sum. Note also that $|z|\geq1/\sqrt n>0$, so $a\neq0$ and
 $|a|=a_{n,m}(|z|)$.
@@ -422,22 +424,30 @@ $\overline Y=(2\pi)^{-1}\int_0^{2\pi}Y(\cdot,\theta)\,d\theta$. Then
 
 \begin{proof}
 The tail hypothesis and the layer-cake formula give
-$\E Y(\cdot,\theta)=\int_0^\infty\Pp\{Y(\cdot,\theta)>s\}\,ds\leq2$ for every
-$\theta$, so $\E\overline Y\leq2$ by Tonelli's theorem and $\overline Y$ is
-integrable. Put $E=\{\overline Y\geq t\}$ and $q=\Pp(E)$. Then
+\[
+ \E Y(\cdot,\theta)
+ =\int_0^\infty\Pp\{Y(\cdot,\theta)>s\}\,ds\leq2
+\]
+for every $\theta$. Hence $\E\overline Y\leq2$ by Tonelli's theorem, and
+$\overline Y$ is integrable. Put $E=\{\overline Y\geq t\}$ and $q=\Pp(E)$. Then
 $t\ind_E\leq\overline Y\ind_E$, and Tonelli's theorem gives
 \[
  tq\leq\E\bigl(\overline Y\ind_E\bigr)
  =\frac1{2\pi}\int_0^{2\pi}\E\bigl(Y(\cdot,\theta)\ind_E\bigr)\,d\theta.
 \]
-For every $\theta$ the layer-cake formula and
-$\Pp(\{Y(\cdot,\theta)>s\}\cap E)\leq\min\{q,e^{-s/2}\}$ yield
+For every $\theta$, the layer-cake formula and
 \[
- \E\bigl(Y(\cdot,\theta)\ind_E\bigr)
- \leq\int_0^\infty\min\{q,e^{-s/2}\}\,ds
- =\int_0^{2\log(1/q)}q\,ds+\int_{2\log(1/q)}^\infty e^{-s/2}\,ds
- =2q\log\frac eq,
+ \Pp(\{Y(\cdot,\theta)>s\}\cap E)
+ \leq\min\{q,e^{-s/2}\}
 \]
+yield
+\begin{align*}
+ \E\bigl(Y(\cdot,\theta)\ind_E\bigr)
+ &\leq\int_0^\infty\min\{q,e^{-s/2}\}\,ds\\
+ &=\int_0^{2\log(1/q)}q\,ds
+   +\int_{2\log(1/q)}^\infty e^{-s/2}\,ds\\
+ &=2q\log\frac eq,
+\end{align*}
 where the computation assumes $0<q\leq1$. If $q>0$ we may cancel $q$ and
 obtain $t\leq2\log(e/q)=2+2\log(1/q)$, so $q\leq e^{1-t/2}$. For $t\geq8$ we
 have $e^{1-t/2}=e^{1-3t/8}e^{-t/8}\leq e^{-2}e^{-t/8}\leq2e^{-t/8}$. The case
@@ -736,7 +746,8 @@ Their later erratum concerns only the construction for Theorem~2 and does not
 amend Theorem~1 \cite{BoasReddy1975}.
 
 \begin{corollary}
-The statement of \cite[Theorem~1]{BoasReddy1973}, as printed, is false.
+The function in Theorem~\ref{thm:main} is a counterexample to the assertion of
+\cite[Theorem~1]{BoasReddy1973} as printed.
 \end{corollary}
 
 \begin{proof}
