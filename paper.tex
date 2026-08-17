@@ -143,9 +143,14 @@ description likewise invokes the cofinite reformulation and the
 Edelman--Kostlan--Offord Gaussian route. The contribution here is an
 alternative bounded-coefficient proof with a different local hole-probability
 mechanism and a deterministic finite-type growth bound, the latter yielding
-the Boas--Reddy counterexample. Specifically, a saddle-selected coefficient,
-one-coordinate anti-concentration and the mean value property for
-$\log|f^{(n)}|$ give summable hole probabilities; Borel--Cantelli
+the Boas--Reddy counterexample.
+
+Here is the mechanism. At each point, condition on all coefficients except the
+saddle-selected one; planar area then gives an exponential lower-tail bound
+for the derivative. Averaging a measurable nonnegative deficit around a circle
+and using the mean-value identity on the zero-free event turns the strict
+circular-mean gain of the radial potential into a deficit of order $\sqrt n$,
+hence a summable fixed-disk hole probability. Borel--Cantelli
 \cite[Section~2.3]{Durrett} and a countable disk basis then produce one sample.
 For background on random series, see Kahane \cite{Kahane}. As accessed 16
 August 2026, the online record still displays \textsc{open} while recording
@@ -199,7 +204,8 @@ weights $2^{k/2}$,
   =\sqrt2\exp(|z|^2).
 \end{align*}
 Thus \eqref{eq:growth} holds for every $\omega\in\Omega$, and every nonzero
-sample function has order at most two and finite type.
+sample function has order at most two and, if its order is two, type at most
+one.
 
 For $r\geq0$ write
 \[
@@ -216,35 +222,13 @@ and set
 We use the extended-real convention $\log0=-\infty$. Every occurrence of
 $L_n$ below is under hypotheses that force $n\geq1$.
 
-The saddle-point estimate needs an upper bound for $\log(m!)$. Rather than
-import a Stirling inequality we prove the following weaker bound, whose loss
-relative to Stirling's estimate is one logarithm; only the property
-$L_n=o(\sqrt n)$ is used, so the loss is harmless.
-
-\begin{lemma}[Elementary factorial bound]\label{lem:factorial}
-For every integer $m\geq1$,
+We shall use the elementary estimate
 \[
- \log(m!)\leq m\log m-m+\log(m+1)+1.
+ \log(m!)\leq m\log m-m+\log(m+1)+1,\qquad m\geq1.
 \]
-\end{lemma}
-
-\begin{proof}
-The function $\log$ is nondecreasing on $[1,\infty)$, so
-$\log j\leq\int_j^{j+1}\log t\,dt$ for every integer $j\geq1$. Summing over
-$1\leq j\leq m$ and evaluating the integral,
-\[
- \log(m!)=\sum_{j=1}^{m}\log j
- \leq\int_1^{m+1}\log t\,dt
- =\bigl[t\log t-t\bigr]_1^{m+1}
- =(m+1)\log(m+1)-m.
-\]
-Furthermore $(m+1)\log(m+1)=m\log(m+1)+\log(m+1)$, and since
-$\log(1+u)\leq u$ for $u\geq0$,
-\[
- m\log(m+1)=m\log m+m\log\Bigl(1+\frac1m\Bigr)\leq m\log m+1.
-\]
-Combining the two displays gives the assertion.
-\end{proof}
+It follows from $\sum_{j=1}^m\log j\leq\int_1^{m+1}\log t\,dt$ and
+$m\log(1+1/m)\leq1$. Its loss relative to Stirling's estimate is logarithmic,
+and only $L_n=o(\sqrt n)$ is used below.
 
 \begin{lemma}[Saddle estimates]\label{lem:saddle}
 Let $n\geq1$.
@@ -279,7 +263,7 @@ which is legitimate because $(n+m)!=n!\,(n+1)(n+2)\cdots(n+m)$.
 For (1) put $x=r\sqrt n$. Each of the $m$ factors under the square root is at
 least $n$, so $b_{n,m}(r)\geq n^{m/2}r^m/m!=x^m/m!$. For $m=\lfloor x\rfloor$
 the hypotheses give $1\leq m\leq x\leq n$, since $x\geq1$ and
-$x=r\sqrt n\leq\sqrt n\sqrt n=n$. By Lemma~\ref{lem:factorial},
+$x=r\sqrt n\leq\sqrt n\sqrt n=n$. By the preceding estimate,
 \[
  \log\frac{x^m}{m!}
  \geq m\log x-m\log m+m-\log(m+1)-1
@@ -450,7 +434,7 @@ and $r>0$ set
  \gamma(c,r)=\frac1{2\pi}\int_0^{2\pi}|c+re^{i\theta}|\,d\theta-|c|.
 \]
 
-\begin{lemma}\label{lem:gap}
+\begin{lemma}[Strict circular-mean gap]\label{lem:gap}
 For all $c\in\C$ and $r>0$ we have $\gamma(c,r)>0$.
 \end{lemma}
 
@@ -487,25 +471,11 @@ $B(c,\rho)$, and let $0<r<\rho$. Then
 \end{lemma}
 
 \begin{proof}
-The disk $B(c,\rho)$ is convex, and $G'/G$ is holomorphic on it because $G$ is
-zero-free there. Every holomorphic function on a convex domain has a
-holomorphic primitive \cite[Chapter~IV]{Conway}, so there is a holomorphic
-$h$ on $B(c,\rho)$ with $h'=G'/G$. Then
-$(Ge^{-h})'=e^{-h}(G'-Gh')=0$ on the connected set $B(c,\rho)$, so
-$Ge^{-h}\equiv\kappa$ for a constant $\kappa$, and $\kappa\neq0$ because $G$
-is zero-free. Choose $\lambda\in\C$ with $e^{\lambda}=\kappa$ and set
-$g=h+\lambda$; then $e^{g}=G$ on $B(c,\rho)$, and hence
-$\Real g=\log|G|$ there.
-
-The strict inequality $r<\rho$ gives $\overline{B(c,r)}\subset B(c,\rho)$, so
-the circle $|z-c|=r$ and its interior lie in the domain of $g$ and Cauchy's
-integral formula \cite[Chapter~IV]{Conway} applies:
-\[
- g(c)=\frac1{2\pi i}\int_{|z-c|=r}\frac{g(z)}{z-c}\,dz
- =\frac1{2\pi}\int_0^{2\pi}g(c+re^{i\theta})\,d\theta,
-\]
-the second equality by the parametrisation $z=c+re^{i\theta}$,
-$dz=ire^{i\theta}\,d\theta$. Taking real parts gives the assertion.
+Since $B(c,\rho)$ is simply connected and $G$ is zero-free there, $G$ has a
+holomorphic logarithm $g$ on $B(c,\rho)$ \cite[Chapter~IV]{Conway}. Thus
+$\log|G|=\Real g$ is harmonic. The strict inequality $r<\rho$ gives
+$\overline{B(c,r)}\subset B(c,\rho)$, so the harmonic mean-value property on
+$B(c,r)$ gives the asserted identity.
 \end{proof}
 
 Now fix $c\in\Q+i\Q$ with $c\neq0$ and a rational $R$ with $0<R<|c|$, and put
@@ -526,8 +496,11 @@ $n_0=n_0(c,R)\geq1$ such that
 and then the hypotheses of Lemma~\ref{lem:pointwise} hold at every point of
 the circle $|z-c|=r$, uniformly in $\theta$.
 
-To obtain a real-valued measurable deficit without changing it on the
-zero-free event used below, define
+The next device packages the hole argument: on a zero-free disk, the circular
+average of $p_n$ gains $\gamma(c,r)\sqrt n$ over its centre, whereas the
+circular average of $\log|F_n|$ equals its central value. We therefore record
+the nonnegative pointwise shortfall in a real-valued measurable form, without
+changing it on the zero-free event. Define
 \[
  \ell(w)=\begin{cases}\log|w|,&w\neq0,\\ 0,&w=0,\end{cases}
  \qquad
@@ -567,44 +540,29 @@ Let
  H_n(c,R)=\{\omega\in\Omega:F_n(\omega,\cdot)\text{ has no zero in }B(c,R)\}.
 \]
 
-\begin{lemma}\label{lem:measurable}
+\begin{lemma}[Measurability of the hole event]\label{lem:measurable}
 $H_n(c,R)\in\mathcal F$.
 \end{lemma}
 
 \begin{proof}
-We claim that
-\begin{equation}\label{eq:meas-identity}
- H_n(c,R)=\bigcap_{\substack{\rho\in\Q\\ 0<\rho<R}}
- \Bigl\{\omega:\min_{|z-c|\leq\rho}|F_n(\omega,z)|>0\Bigr\},
-\end{equation}
-the minimum being attained because $z\mapsto|F_n(\omega,z)|$ is continuous
-and $\overline{B(c,\rho)}$ is compact. If $\omega\in H_n(c,R)$ and
-$0<\rho<R$, then $\overline{B(c,\rho)}\subset B(c,R)$, so $|F_n(\omega,
-\cdot)|$ is continuous and strictly positive on a compact set and its minimum
-there is positive. Conversely, if the right-hand side contains $\omega$ and
-$z\in B(c,R)$, choose a rational $\rho$ with $|z-c|\leq\rho<R$; then
-$|F_n(\omega,z)|>0$. This proves \eqref{eq:meas-identity}, and the
-intersection is countable.
-
-It remains to check that, for fixed $\rho\in(0,R)$, the function
+For rational $0<\rho<R$, let
 \[
- M_\rho(\omega)=\min_{|z-c|\leq\rho}|F_n(\omega,z)|
+ Q_\rho=(\Q+i\Q)\cap B(c,\rho),\qquad
+ M_\rho(\omega)=\inf_{z\in Q_\rho}|F_n(\omega,z)|.
 \]
-is $\mathcal F$-measurable. Let $Q_\rho=(\Q+i\Q)\cap B(c,\rho)$, a countable
-set that is dense in $\overline{B(c,\rho)}$: boundary points are approached
-from inside the disk and then by points of $\Q+i\Q$. For fixed $\omega$ the function
-$z\mapsto|F_n(\omega,z)|$ is continuous on the compact set
-$\overline{B(c,\rho)}$, and a continuous function on a compact set has the
-same infimum over the set as over any dense subset of it; hence
+The set $Q_\rho$ is countable and dense in $\overline{B(c,\rho)}$, including
+by interior approximation at boundary points. Hence continuity in $z$ gives
 \[
- M_\rho(\omega)=\inf_{z\in Q_\rho}|F_n(\omega,z)| .
+ M_\rho(\omega)=\min_{|z-c|\leq\rho}|F_n(\omega,z)|,
 \]
-For each fixed $z$ the map $\omega\mapsto|F_n(\omega,z)|$ is measurable, as
-noted after \eqref{eq:derivative}, so $M_\rho$ is a countable infimum of
-measurable functions and is therefore measurable. Consequently
-$\{M_\rho>0\}\in\mathcal F$ for every rational $\rho\in(0,R)$, and
-\eqref{eq:meas-identity} exhibits $H_n(c,R)$ as a countable intersection of
-sets in $\mathcal F$.
+while measurability of each evaluation makes $M_\rho$ measurable. Therefore
+\[
+ H_n(c,R)=\bigcap_{\substack{\rho\in\Q\\0<\rho<R}}\{M_\rho>0\}
+ \in\mathcal F.
+\]
+Indeed, zero-freeness on $B(c,R)$ gives positivity on every compact subdisk,
+and the converse follows by choosing rational $\rho$ with
+$|z-c|\leq\rho<R$ for each $z\in B(c,R)$.
 \end{proof}
 
 We can now estimate $\Pp(H_n(c,R))$. Fix $n\geq n_0$ and work on the event
