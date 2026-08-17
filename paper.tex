@@ -387,8 +387,10 @@ Let $Y\geq0$ be jointly measurable on $\Omega\times[0,2\pi]$ and suppose that
 \[
  \Pp\{Y(\cdot,\theta)>s\}\leq e^{-s/2},\qquad s\geq0,
 \]
-uniformly in $\theta$. Put
-$\overline Y=(2\pi)^{-1}\int_0^{2\pi}Y(\cdot,\theta)\,d\theta$. Then
+for every $\theta\in[0,2\pi]$. Thus, for each fixed $\theta$, the map
+$\omega\mapsto Y(\omega,\theta)$ is a nonnegative random variable; $\omega$ is
+the sample point and $\theta$ is the angular parameter. Put
+$\overline Y(\omega)=(2\pi)^{-1}\int_0^{2\pi}Y(\omega,\theta)\,d\theta$. Then
 \[
  \Pp\{\overline Y\geq t\}\leq2e^{-t/8},\qquad t\geq8.
 \]
@@ -494,7 +496,7 @@ $n_0=n_0(c,R)\geq1$ such that
  \qquad\text{for all }n\geq n_0,
 \end{equation}
 and then the hypotheses of Lemma~\ref{lem:pointwise} hold at every point of
-the circle $|z-c|=r$, uniformly in $\theta$.
+the circle $|z-c|=r$, with the same $n_0$ for every $\theta\in[0,2\pi]$.
 
 The next device packages the hole argument: on a zero-free disk, the circular
 average of $p_n$ gains $\gamma(c,r)\sqrt n$ over its centre, whereas the
@@ -686,6 +688,11 @@ Consequently only the finitely many derivatives with $n<N(D)$ can be
 zero-free in $D$. Thus no disk, of any radius, is zero-free for infinitely
 many successive derivatives of $f$, contrary to the printed conclusion.
 \end{proof}
+
+\section*{Acknowledgement}
+The author thanks Xi Chen for reading an earlier version and for detailed
+suggestions that improved the introduction, theorem formulation and
+circle-average estimate.
 
 \section*{Declarations}
 \noindent\textit{Use of AI.} In July--August 2026, the author used OpenAI
