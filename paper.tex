@@ -34,13 +34,14 @@
 \begin{document}
 
 \begin{abstract}
-We construct a transcendental entire function $f$ for which every nonempty
-open subset of the complex plane contains a zero of $f^{(n)}$ for all
-sufficiently large~$n$. Thus every strictly increasing sequence of derivative
-orders has zero sets with dense union. The construction uses a random Fock
-series with independent coefficients uniformly distributed on the closed unit
-disk. A saddle-point estimate selects a Taylor coefficient with a lower bound
-at the natural scale.
+We give a bounded-coefficient construction of a transcendental entire function
+$f$ for which every nonempty open subset of the complex plane contains a zero
+of $f^{(n)}$ for all sufficiently large~$n$. Thus every strictly increasing
+sequence of derivative orders has zero sets with dense union. An earlier
+proposal of Almeida uses the planar Gaussian entire function and Gaussian
+zero-statistics estimates. Here the coefficients are independent and uniformly
+distributed on the closed unit disk, and a saddle-point estimate selects a
+Taylor coefficient with a lower bound at the natural scale.
 Combining one-coordinate anti-concentration with the mean value property of
 $\log|f^{(n)}|$ yields a summable bound for the probability that $f^{(n)}$ is
 zero-free on a fixed disk. Every sample satisfies
@@ -142,9 +143,29 @@ not every one. By Lemma~\ref{lem:cofinite} the problem is exactly the passage
 from infinitely many admissible derivative orders to cofinitely many, and it
 is that passage which the construction below supplies.
 
-The online record labels the problem \textsc{open} while cautioning that its
-status may miss relevant literature \cite{Bloom906}. Our argument is
-self-contained.
+On 25 April 2026, Almeida posted a proposed solution to the transcendental
+version of the problem on the Erd\H{o}s Problems discussion forum, together
+with a manuscript using the planar Gaussian entire function
+\cite{Almeida2026,BloomForum906}. Later that day, Chojecki posted a second
+full-solution claim using the same Gaussian zero-statistics route
+\cite{BloomForum906}. Almeida's post precedes both Chojecki's post and the
+present manuscript. The author learned of these posts after completing and
+circulating the present proof.
+
+The earlier proposals and the present work share the cofinite reformulation,
+the Fock normalization $1/\sqrt{k!}$ and a final Borel--Cantelli argument.
+Their estimates for zero-free disks are different. Almeida uses Gaussian
+coefficients, the Edelman--Kostlan expected zero measure, Laguerre asymptotics
+and an Offord-type deviation estimate. Chojecki's forum description likewise
+invokes the Edelman--Kostlan and Offord-type estimates. The construction below
+uses bounded uniform coefficients, a saddle-selected Taylor coefficient,
+direct one-coordinate anti-concentration and the mean value property for
+$\log|f^{(n)}|$. In addition, bounded coefficients give the deterministic
+growth estimate \eqref{eq:growth}, which places the resulting function in the
+Boas--Reddy growth class and yields the consequence in
+Section~\ref{sec:boas-reddy}. The online record continues to label the problem
+\textsc{open} while cautioning that its status may miss relevant literature
+\cite{Bloom906}.
 
 The method is probabilistic and belongs to the theory of random analytic
 functions; for the general theory of random series of functions we refer to
@@ -758,7 +779,14 @@ mathematical content and exposition of this article.
 \noindent\textit{Data availability.} No data were generated or analysed in this
 theoretical study.
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
+
+\bibitem{Almeida2026}
+A.~Almeida,
+`A probabilistic construction for the transcendental form of Erd\H{o}s
+Problem 906', unpublished manuscript (April 2026),
+\href{https://github.com/Drill23/erdos-problem-906-proposed-solution}
+{github.com/Drill23/erdos-problem-906-proposed-solution}.
 
 \bibitem{BarthSchneider1972}
 K.~F. Barth and W.~J. Schneider,
@@ -770,7 +798,13 @@ entire function',
 T.~F. Bloom,
 `Erd\H{o}s Problem \#906',
 \href{https://www.erdosproblems.com/906}{erdosproblems.com/906},
-accessed 5 August 2026.
+accessed 16 August 2026.
+
+\bibitem{BloomForum906}
+T.~F. Bloom,
+`Erd\H{o}s Problem \#906 discussion thread',
+\url{https://www.erdosproblems.com/forum/thread/906},
+accessed 16 August 2026.
 
 \bibitem{BoasReddy1973}
 R.~P. Boas, Jr. and A.~R. Reddy,

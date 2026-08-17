@@ -2,7 +2,7 @@
 
 Eric Hou, 2026.
 
-This repository distributes the current manuscript **Cofinite Zeros of High Derivatives**. It gives a proposed construction of a transcendental entire function whose sufficiently high derivatives have a zero in every nonempty open subset of the complex plane. The resulting growth bound also yields a counterexample to Theorem 1 of Boas and Reddy, *Bull. Amer. Math. Soc.* 79 (1973), as printed. Their 1975 erratum concerns Theorem 2 and does not amend Theorem 1.
+This repository distributes the current manuscript **Cofinite Zeros of High Derivatives**. It gives a bounded-coefficient construction of a transcendental entire function whose sufficiently high derivatives have a zero in every nonempty open subset of the complex plane. The manuscript acknowledges earlier April 2026 Gaussian proposed solutions by Adriano Almeida and Przemek Chojecki and explains the different hole-probability mechanism used here. The resulting deterministic growth bound also yields a counterexample to Theorem 1 of Boas and Reddy, *Bull. Amer. Math. Soc.* 79 (1973), as printed. Their 1975 erratum concerns Theorem 2 and does not amend Theorem 1.
 
 ## Manuscript files
 
@@ -20,7 +20,7 @@ Install [Tectonic](https://tectonic-typesetting.github.io/) and run:
 tectonic -X compile paper.tex
 ```
 
-The committed PDF was built with Tectonic. A clean build should produce a 12-page PDF.
+The committed PDF was built with Tectonic. A clean build should produce a 13-page PDF.
 
 ## Repository contents
 
