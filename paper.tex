@@ -34,21 +34,17 @@
 \begin{document}
 
 \begin{abstract}
-We give a bounded-coefficient construction of a transcendental entire function
-$f$ for which every nonempty open subset of the complex plane contains a zero
-of $f^{(n)}$ for all sufficiently large~$n$. Thus every strictly increasing
-sequence of derivative orders has zero sets with dense union. An earlier
-proposal of Almeida uses the planar Gaussian entire function and Gaussian
-zero-statistics estimates. Here the coefficients are independent and uniformly
-distributed on the closed unit disk, and a saddle-point estimate selects a
-Taylor coefficient with a lower bound at the natural scale.
-Combining one-coordinate anti-concentration with the mean value property of
-$\log|f^{(n)}|$ yields a summable bound for the probability that $f^{(n)}$ is
-zero-free on a fixed disk. Every sample satisfies
-$|f(z)|\leq\sqrt2\exp(|z|^2)$. The resulting function is a counterexample to
-Boas and Reddy's printed assertion that every transcendental entire function
-of order at most two and finite type admits an arbitrarily large fixed disk
-zero-free for infinitely many successive derivatives.
+We construct a transcendental entire function $f$ for which every nonempty
+open subset of the complex plane contains a zero of $f^{(n)}$ for all
+sufficiently large~$n$. Earlier Gaussian proposals by Almeida and Chojecki use
+expected-zero and Offord-type estimates. Here the coefficients are independent
+and uniformly distributed on the closed unit disk. A saddle-point estimate,
+one-coordinate anti-concentration and the mean value property of
+$\log|f^{(n)}|$ give summable fixed-disk hole probabilities. Every sample
+satisfies $|f(z)|\leq\sqrt2\exp(|z|^2)$. The selected function is therefore a
+counterexample to Boas and Reddy's printed assertion that every transcendental
+entire function of order at most two and finite type admits an arbitrarily
+large fixed disk zero-free for infinitely many successive derivatives.
 \end{abstract}
 
 \classification[2020]{primary 30D20; secondary 30B20, 30C15, 60F15}
@@ -62,12 +58,11 @@ random analytic function, hole probability}
 Erd\H{o}s asked whether there is a nonzero entire function $f$ such that, for
 every strictly increasing sequence $(n_k)_{k\geq0}$ of nonnegative integers,
 the union of the zero sets of $f^{(n_k)}$ is dense in the complex plane
-\cite[p.~72]{Erdos1982}. The question is recorded as Problem~906 on the
-Erd\H{o}s problems page \cite{Bloom906}. If polynomials are admitted the
-question is immediate, because every sufficiently high derivative of a
-polynomial vanishes identically; we therefore treat the transcendental form
-of the problem. Throughout, \emph{transcendental entire} means entire and not
-a polynomial, and $\N=\{0,1,2,\ldots\}$. For $c\in\C$ and $R>0$ we write
+\cite[p.~72]{Erdos1982}. On the same page he wrote that the relevant functions
+had been constructed ``more than ten years ago'', without identifying a
+source. The question is now recorded as Problem~906 \cite{Bloom906}. If
+polynomials are admitted it is immediate, so we treat the transcendental
+form. Write $\N=\{0,1,2,\ldots\}$ and
 $B(c,R)=\{z\in\C:|z-c|<R\}$.
 
 For a nonempty open set $U\subset\C$ and an entire function $f$, define
@@ -122,74 +117,39 @@ two and, if its order is two, type at most one. The Boas--Reddy consequence,
 with its source quantifier made explicit, is recorded in
 Section~\ref{sec:boas-reddy}.
 
-Two classical constructions come close to the statement of
-Theorem~\ref{thm:main} without reaching it. MacLane \cite{MacLane1952} built
-an entire function whose sequence of successive derivatives is dense, in the
-topology of locally uniform convergence, in the space of all entire
-functions. Barth and Schneider \cite{BarthSchneider1972} showed that, for any
-sequence $(S_k)_{k\geq0}$ of discrete subsets of $\C$, one can choose
-derivative orders $n_k$ and a transcendental entire function whose
-$n_k$-th derivative vanishes on $S_k$. Both results yield density statements
-near the one asked for, in that they force a union of derivative zero sets to
-be dense; neither yields assertion~(2) of Lemma~\ref{lem:cofinite}.
+MacLane \cite{MacLane1952} constructed an entire function whose successive
+derivatives are dense in the space of entire functions, and Barth and
+Schneider \cite{BarthSchneider1972} prescribed discrete zero sets along one
+constructed sequence of derivative orders. Neither result yields the
+cofinite condition in Lemma~\ref{lem:cofinite}. Boas and Reddy's expanded
+article \cite{BoasReddyJMAA1973} contained a further positive Theorem~2, but
+their erratum withdrew its construction and left that conclusion open
+\cite{BoasReddy1975}.
 
-MacLane's
-theorem controls the derivatives only through approximation in the locally
-uniform topology, which does not preclude an infinite set of derivative
-orders whose zero sets all miss one fixed disk. In the Barth--Schneider
-theorem the orders $n_k$ are produced by the construction rather than
-prescribed in advance, so the conclusion concerns one increasing sequence and
-not every one. By Lemma~\ref{lem:cofinite} the problem is exactly the passage
-from infinitely many admissible derivative orders to cofinitely many, and it
-is that passage which the construction below supplies.
+On 25 April 2026, Almeida first posted a detailed proposed solution and later
+uploaded a manuscript using the planar Gaussian entire function
+\cite{AlmeidaForum2026,Almeida2026}. Later that day Chojecki posted a second
+Gaussian-route note; on 1 June he clarified that it was intended as a full
+solution and reiterated that Almeida had posted first
+\cite{ChojeckiForum2026}. These posts precede the present manuscript. The
+author learned of them after completing and circulating this proof.
 
-On 25 April 2026, Almeida posted a proposed solution to the transcendental
-version of the problem on the Erd\H{o}s Problems discussion forum, together
-with a manuscript using the planar Gaussian entire function
-\cite{Almeida2026,BloomForum906}. Later that day, Chojecki posted a second
-full-solution claim using the same Gaussian zero-statistics route
-\cite{BloomForum906}. Almeida's post precedes both Chojecki's post and the
-present manuscript. The author learned of these posts after completing and
-circulating the present proof.
-
-The earlier proposals and the present work share the cofinite reformulation,
+Almeida's manuscript and the present work share the cofinite reformulation,
 the Fock normalization $1/\sqrt{k!}$ and a final Borel--Cantelli argument.
-Their estimates for zero-free disks are different. Almeida uses Gaussian
-coefficients, the Edelman--Kostlan expected zero measure, Laguerre asymptotics
-and an Offord-type deviation estimate. Chojecki's forum description likewise
-invokes the Edelman--Kostlan and Offord-type estimates. The construction below
-uses bounded uniform coefficients, a saddle-selected Taylor coefficient,
-direct one-coordinate anti-concentration and the mean value property for
-$\log|f^{(n)}|$. In addition, bounded coefficients give the deterministic
-growth estimate \eqref{eq:growth}, which places the resulting function in the
-Boas--Reddy growth class and yields the consequence in
-Section~\ref{sec:boas-reddy}. The online record continues to label the problem
-\textsc{open} while cautioning that its status may miss relevant literature
-\cite{Bloom906}.
-
-The method is probabilistic and belongs to the theory of random analytic
-functions; for the general theory of random series of functions we refer to
-Kahane \cite{Kahane}. The quantity estimated in Section~\ref{sec:holes}, the
-probability that a random analytic function has no zero in a fixed disk, is a
-hole probability.
-
-The proof is organised as follows. Section~\ref{sec:fock} introduces a random
-Fock series whose coefficients are bounded by one, so that the growth bound
-\eqref{eq:growth} holds for every sample, and establishes the two
-deterministic estimates behind the argument: a saddle-point lower bound
-selecting a Taylor coefficient of $f^{(n)}$ whose magnitude is bounded below
-at the relevant scale on a given circle, and a matching upper bound for the whole
-series. Anti-concentration in that one coefficient converts the lower bound
-into a pointwise tail estimate for the logarithmic deficit of $f^{(n)}$,
-which is then averaged over a circle.
-
-In Section~\ref{sec:holes},
-zero-freeness of $f^{(n)}$ on a disk forces, through the mean value property
-of $\log|f^{(n)}|$, a large averaged deficit on the boundary circle, an event
-of small probability. The resulting hole probabilities are summable in $n$;
-the first Borel--Cantelli lemma \cite[Section~2.3]{Durrett} applied along a
-countable base of disks then produces a single sample with the required
-property.
+Almeida uses Gaussian coefficients, the Edelman--Kostlan expected zero
+measure, Laguerre asymptotics and an Offord-type estimate. Chojecki's forum
+description likewise invokes the cofinite reformulation and the
+Edelman--Kostlan--Offord Gaussian route. The contribution here is an
+alternative bounded-coefficient proof with a different local hole-probability
+mechanism and a deterministic finite-type growth bound, the latter yielding
+the Boas--Reddy counterexample. Specifically, a saddle-selected coefficient,
+one-coordinate anti-concentration and the mean value property for
+$\log|f^{(n)}|$ give summable hole probabilities; Borel--Cantelli
+\cite[Section~2.3]{Durrett} and a countable disk basis then produce one sample.
+For background on random series, see Kahane \cite{Kahane}. As accessed 16
+August 2026, the online record still displays \textsc{open} while recording
+claimed solutions and warning that relevant literature may be missing
+\cite{Bloom906,AlmeidaForum2026,ChojeckiForum2026}.
 
 \section{A bounded random Fock series}\label{sec:fock}
 
@@ -237,8 +197,8 @@ weights $2^{k/2}$,
       \left(\sum_{k\geq0}2^{-k}\right)^{1/2}
   =\sqrt2\exp(|z|^2).
 \end{align*}
-Thus \eqref{eq:growth} holds for every $\omega\in\Omega$, and every sample has
-order at most two and finite type.
+Thus \eqref{eq:growth} holds for every $\omega\in\Omega$, and every nonzero
+sample function has order at most two and finite type.
 
 For $r\geq0$ write
 \[
@@ -747,7 +707,11 @@ assert that if $f$ is of order at most two and finite type, then $f$ admits
 arbitrarily large disks on which infinitely many successive derivatives are
 zero-free \cite[Theorem~1]{BoasReddy1973}. They clarify that
 one fixed disk serves infinitely many derivatives \cite[p.~65]{BoasReddy1973}.
+Their expanded article also stated a distinct Theorem~2
+\cite{BoasReddyJMAA1973}.
 Their published erratum addresses Theorem~2 \cite{BoasReddy1975}.
+It withdraws the supporting construction and says that conclusion remains
+open.
 
 \begin{corollary}
 The function in Theorem~\ref{thm:main} is a counterexample to the assertion of
@@ -771,12 +735,9 @@ OpenAI Codex assisted with manuscript revision and argument auditing. The
 author checked all AI-assisted output and takes sole responsibility for the
 mathematical content and exposition of this article.
 
-\medskip
-\noindent\textit{Competing interests.} The author declares no competing interests.
-
-\noindent\textit{Funding.} The author received no specific funding for this work.
-
-\noindent\textit{Data availability.} No data were generated or analysed in this
+\noindent\textit{Competing interests.} The author declares no competing
+interests. \textit{Funding.} The author received no specific funding for this
+work. \textit{Data availability.} No data were generated or analysed in this
 theoretical study.
 
 \begin{thebibliography}{99}
@@ -785,8 +746,14 @@ theoretical study.
 A.~Almeida,
 `A probabilistic construction for the transcendental form of Erd\H{o}s
 Problem 906', unpublished manuscript (April 2026),
-\href{https://github.com/Drill23/erdos-problem-906-proposed-solution}
-{github.com/Drill23/erdos-problem-906-proposed-solution}.
+\href{https://github.com/Drill23/erdos-problem-906-proposed-solution/commit/5d77fdc959dc6df150d3c680b338ed7b99653673}
+{initial repository commit}, accessed 16 August 2026.
+
+\bibitem{AlmeidaForum2026}
+A.~Almeida,
+`Proposed solution to Erd\H{o}s Problem 906', forum post, 25 April 2026,
+\url{https://www.erdosproblems.com/forum/thread/906#post-5875},
+accessed 16 August 2026.
 
 \bibitem{BarthSchneider1972}
 K.~F. Barth and W.~J. Schneider,
@@ -800,22 +767,30 @@ T.~F. Bloom,
 \href{https://www.erdosproblems.com/906}{erdosproblems.com/906},
 accessed 16 August 2026.
 
-\bibitem{BloomForum906}
-T.~F. Bloom,
-`Erd\H{o}s Problem \#906 discussion thread',
-\url{https://www.erdosproblems.com/forum/thread/906},
-accessed 16 August 2026.
-
 \bibitem{BoasReddy1973}
 R.~P. Boas, Jr. and A.~R. Reddy,
 `Zeros of successive derivatives of entire functions',
 \emph{Bull. Amer. Math. Soc.} \textbf{79} (1973), 64--65,
 \url{https://doi.org/10.1090/S0002-9904-1973-13093-9}.
 
+\bibitem{BoasReddyJMAA1973}
+R.~P. Boas, Jr. and A.~R. Reddy,
+`Zeros of the successive derivatives of entire functions',
+\emph{J. Math. Anal. Appl.} \textbf{42} (1973), 466--473,
+\url{https://doi.org/10.1016/0022-247X(73)90153-4}.
+
 \bibitem{BoasReddy1975}
 R.~P. Boas, Jr. and A.~R. Reddy,
 `Erratum',
-\emph{J. Math. Anal. Appl.} \textbf{49} (1975), 527.
+\emph{J. Math. Anal. Appl.} \textbf{49}(2) (1975), 527,
+\url{https://doi.org/10.1016/0022-247X(75)90195-X}.
+
+\bibitem{ChojeckiForum2026}
+P.~Chojecki,
+`Posts on Erd\H{o}s Problem 906', 25 April and 1 June 2026,
+\href{https://www.erdosproblems.com/forum/thread/906#post-5886}{initial post}
+and \href{https://www.erdosproblems.com/forum/thread/906#post-6776}{clarification},
+accessed 16 August 2026.
 
 \bibitem{Conway}
 J.~B. Conway,
@@ -831,7 +806,8 @@ R.~Durrett,
 P.~Erd\H{o}s,
 `Some of my favourite problems which recently have been solved',
 in: \emph{Proc. Internat. Math. Conf., Singapore 1981},
-North-Holland Math. Stud. 74 (North-Holland, 1982), 59--79.
+North-Holland Math. Stud. 74 (North-Holland, 1982), 59--79,
+\url{https://doi.org/10.1016/S0304-0208(08)70415-8}.
 
 \bibitem{Kahane}
 J.-P.~Kahane,
