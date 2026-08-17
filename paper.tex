@@ -40,8 +40,9 @@ sufficiently large~$n$. Earlier Gaussian proposals by Almeida and Chojecki use
 expected-zero and Offord-type estimates. Here the coefficients are independent
 and uniformly distributed on the closed unit disk. A saddle-point estimate,
 one-coordinate anti-concentration and the mean value property of
-$\log|f^{(n)}|$ give summable fixed-disk hole probabilities. Every sample
-satisfies $|f(z)|\leq\sqrt2\exp(|z|^2)$. The selected function is therefore a
+$\log|f^{(n)}|$ give summable fixed-disk hole probabilities. The selected
+function has order exactly two and satisfies
+$|f(z)|\leq\sqrt2\exp(|z|^2)$. It is therefore a
 counterexample to Boas and Reddy's printed assertion that every transcendental
 entire function of order at most two and finite type admits an arbitrarily
 large fixed disk zero-free for infinitely many successive derivatives.
@@ -105,7 +106,7 @@ nonempty open set $U\subset\C$, there is an integer $N(U)$ for which
 \[
  n\geq N(U)\quad\Longrightarrow\quad f^{(n)}\text{ has a zero in }U.
 \]
-The same function can be chosen to satisfy
+The same function can be chosen to have order exactly two and to satisfy
 \begin{equation}\label{eq:growth}
  |f(z)|\leq\sqrt2\exp(|z|^2),\qquad z\in\C.
 \end{equation}
@@ -113,9 +114,9 @@ Consequently, the zero sets indexed by every strictly increasing sequence of
 derivative orders have dense union.
 \end{theorem}
 
-The bound \eqref{eq:growth} implies that the function below has order at most
-two and, if its order is two, type at most one. The Boas--Reddy consequence,
-with its source quantifier made explicit, is recorded in
+The proof below shows that the selected function has order exactly two, while
+\eqref{eq:growth} gives type at most one. The Boas--Reddy consequence, with
+its source quantifier made explicit, is recorded in
 Section~\ref{sec:boas-reddy}.
 
 MacLane \cite{MacLane1952} constructed an entire function whose successive
@@ -203,9 +204,21 @@ weights $2^{k/2}$,
       \left(\sum_{k\geq0}2^{-k}\right)^{1/2}
   =\sqrt2\exp(|z|^2).
 \end{align*}
-Thus \eqref{eq:growth} holds for every $\omega\in\Omega$, and every nonzero
-sample function has order at most two and, if its order is two, type at most
-one.
+Thus \eqref{eq:growth} holds for every $\omega\in\Omega$. Put
+\[
+ \Omega_2=\{\omega:|\xi_k(\omega)|\geq\tfrac12
+ \text{ for infinitely many }k\}.
+\]
+Independence and $\Pp\{|\xi_k|<1/2\}=1/4$ give $\Pp(\Omega_2)=1$. For
+$\omega\in\Omega_0\cap\Omega_2$, the coefficient formula for order gives
+\[
+ \rho(f)=\limsup_{k\to\infty}
+ \frac{k\log k}{\frac12\log(k!)+\log(1/|\xi_k|)}.
+\]
+The growth bound gives $\rho(f)\leq2$. Along the subsequence on which
+$|\xi_k|\geq1/2$, the displayed quotient tends to two because
+$\log(k!)\sim k\log k$. Hence every sample in $\Omega_0\cap\Omega_2$ has
+order exactly two and type at most one.
 
 For $r\geq0$ write
 \[
@@ -645,13 +658,15 @@ By \eqref{eq:bc}, for each $B=B(c,R)\in\mathcal B$ there is a
 $\Pp$-null set $\mathcal N_B$ outside of which only finitely many $F_n$ are
 zero-free in $B$. The union $\mathcal N=\bigcup_{B\in\mathcal B}\mathcal N_B$
 is a countable union of null sets and is therefore null. With $\Omega_0$ as
-in \eqref{eq:nonzero} we have $\Pp(\Omega_0\setminus\mathcal N)=1$; in
-particular this event is nonempty. Fix $\omega\in\Omega_0\setminus\mathcal N$
-and let $f$ be the entire function \eqref{eq:fock} determined by it.
+in \eqref{eq:nonzero} and $\Omega_2$ as above, we have
+$\Pp((\Omega_0\cap\Omega_2)\setminus\mathcal N)=1$; in particular this event
+is nonempty. Fix $\omega\in(\Omega_0\cap\Omega_2)\setminus\mathcal N$ and let
+$f$ be the entire function \eqref{eq:fock} determined by it.
 
 Then $f$ is transcendental, because $\omega\in\Omega_0$ makes every Taylor
-coefficient of $f$ nonzero, and $f$ satisfies \eqref{eq:growth}, which holds
-for every sample. Let $U\subset\C$ be nonempty and open and choose
+coefficient of $f$ nonzero; moreover $\omega\in\Omega_2$ makes its order
+exactly two, and $f$ satisfies \eqref{eq:growth}. Let $U\subset\C$ be
+nonempty and open and choose
 $B\in\mathcal B$ with $B\subset U$. Since $\omega\notin\mathcal N_B$, only
 finitely many $F_n=f^{(n)}$ are zero-free in $B$. Let $N(U)$ be one more than
 the largest such index, or let $N(U)=0$ if there is no such index. Then every
@@ -691,7 +706,8 @@ many successive derivatives of $f$, contrary to the printed conclusion.
 
 \section*{Acknowledgement}
 The author thanks Xi Chen for detailed suggestions that improved the
-introduction, theorem formulation and circle-average estimate.
+introduction, theorem formulation, order calculation and circle-average
+estimate.
 
 \section*{Declarations}
 \noindent\textit{Use of AI.} In July--August 2026, the author used OpenAI
